@@ -14,6 +14,7 @@ En este repositorio se encuentra la mayoria de Micro stitios que se han realizad
 - [Kingo (PiMag Connection)](https://services.nikken.com.mx/pimag_connection/OTg0NTkwMw==)
 - [Club Viajeros Premium](https://services.nikken.com.mx/viajeros_premium/OTg0NTkwMw==)
 - [Campaña de repuestos (Puntos Connection)](https://services.nikken.com.mx/puntos_connection/OTg0NTkwMw==)
+- [Calculadora de Influencia](https://services.nikken.com.mx/calculadoraNikken/OTg0NTkwMw==)
 
 |              |   |
 :-------------------------:|:-------------------------:
@@ -22,3 +23,4 @@ En este repositorio se encuentra la mayoria de Micro stitios que se han realizad
 ![](https://services.nikken.com.mx/fpro/img/readme/convMayo.png)  |  ![](https://services.nikken.com.mx/fpro/img/readme/siminf30.png)
 ![](https://services.nikken.com.mx/fpro/img/readme/pimcon.png)  |  ![](https://services.nikken.com.mx/fpro/img/readme/contrinf.png)
 ![](https://services.nikken.com.mx/fpro/img/readme/ptsconn.png)  |  ![](https://services.nikken.com.mx/fpro/img/readme/viajerospro.png)
+![](https://services.nikken.com.mx/fpro/img/readme/CalculadoraNK.png)  |  
