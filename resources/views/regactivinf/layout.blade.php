@@ -106,7 +106,7 @@
                     <div class="modal-body">
                         <div class="py-3 text-center">
                             <video controls="true" class="embed-responsive-item" width="100%">
-                                <source src="{{ asset('fproh/img/regactivinf/tutorial.mp4') }}" type="video/mp4" />
+                                <source src="{{ asset('fproh/img/regactivinf/tutorial.m4v') }}" type="video/mp4" />
                             </video>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                 <div class="col-xl-5 col-md-6 col-sm-6 col-12">
                     <ul class="list-inline mb-0 d-flex justify-content-sm-end justify-content-center mr-sm-3 ml-sm-0 mx-3">
                         <li class="list-inline-item  mr-3">
-                            <p class="bottom-footer">&#xA9; {{ Date('Y') }} <a href="javascript:void(0)">NIKKEN Latinoamerica </a></p>
+                            <p class="bottom-footer">&#xA9; {{ Date('Y') }} <a href="javascript:void(0)">NIKKEN Latinoamerica </a> &nbsp;&nbsp;&nbsp;v. 1.0</p>
                         </li>
                         <li class="list-inline-item align-self-center">
                             <div class="scrollTop"><i class="flaticon-up-arrow-fill-1"></i></div>
@@ -158,4 +158,12 @@
         }
     </script>
     @yield('scripts')
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-159400977-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-159400977-1');
+    </script>
 </html>

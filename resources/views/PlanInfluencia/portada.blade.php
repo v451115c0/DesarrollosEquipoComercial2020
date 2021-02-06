@@ -410,7 +410,9 @@
             <div class="row">
                 <div class="col-11">
                     <br>
-                    <p class="center"><strong>¡FELICIDADES! POR TUS LOGROS DE ESTE MES</strong></p>
+                    @if ($PriceKintai > 0)
+                        <p class="center"><strong>¡FELICIDADES! POR TUS LOGROS DE ESTE MES</strong></p>
+                    @endif
                     <br>
                     @if ($PriceKintai == 0)
                     <p class="text">Si hubieras completado el Kintai hubieras ganado: <strong>{{ $simboloPrecio }}<?php echo $PriceKintaiCountry ?></strong>  </p>

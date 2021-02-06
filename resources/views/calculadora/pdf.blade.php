@@ -137,8 +137,9 @@
     </head>
     <body>
         @php
-            $rangosLetra = ['DIR' => 'DIRECTO', 'EXE' => 'EJECUTIVO', 'PLA' => 'PLATA', 'ORO' => 'ORO', 'PLO' => 'PLATINO', 'DIA' => 'DIAMANTE', 'DRL' => 'DIAMANTE REAL'];
+            $rangosLetra = ['Cliente' => 'CLIENTE', 'Influencer' => 'INFLUENCER', 'DIR' => 'DIRECTO', 'EXE' => 'EJECUTIVO', 'PLA' => 'PLATA', 'ORO' => 'ORO', 'PLO' => 'PLATINO', 'DIA' => 'DIAMANTE', 'DRL' => 'DIAMANTE REAL'];
         @endphp
+
         <header>
             <img src="{{ asset('fpro/img/logo-black.png') }}" width="30%" style="margin-left: 5px; margin-top: 3px">
             <img src="{{ asset('fproh/img/calculadora/' . $nodo0[1] . '.png') }}" width="5%" style="margin-right: 10px; margin-top: 3px; float: right">
@@ -172,13 +173,13 @@
                                     {{ $rangosLetra[$nodo1[1]] }}
                                 </button><br>
                                 <hr style="border: 1px solid #00aa97; margin-bottom: 0"><br>
-                                @if ($nodo1[5] != '- -')
+                                @if ($nodo1[5] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo1[5] }} - {{ $nodo1[10] }} pz</button><br>
                                 @endif
-                                @if($nodo1[7] != '- -')
+                                @if($nodo1[7] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo1[7] }} - {{ $nodo1[11] }} pz</button><br>
                                 @endif
-                                @if($nodo1[9] != '- -')
+                                @if($nodo1[9] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo1[9] }} - {{ $nodo1[12] }} pz</button><br>
                                 @endif
                                 <table border="0" style="width: 100%; font-size: 11px" class="tabBonos">
@@ -261,13 +262,13 @@
                                     {{ $rangosLetra[$nodo3[1]] }}
                                 </button><br>
                                 <hr style="border: 1px solid #00aa97; margin-bottom: 0"><br>
-                                @if ($nodo3[5] != '- -')
+                                @if ($nodo3[5] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo3[5] }} - {{ $nodo3[10] }} pz</button><br>
                                 @endif
-                                @if ($nodo3[7] != '- -')
+                                @if ($nodo3[7] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo3[7] }} - {{ $nodo3[11] }} pz</button><br>
                                 @endif
-                                @if ($nodo3[9] != '- -')
+                                @if ($nodo3[9] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo3[9] }} - {{ $nodo3[12] }} pz</button><br>
                                 @endif
                                 <table border="0" style="width: 100%; font-size: 11px" class="tabBonos">
@@ -350,13 +351,13 @@
                                     {{ $rangosLetra[$nodo5[1]] }}
                                 </button><br>
                                 <hr style="border: 1px solid #00aa97; margin-bottom: 0"><br>
-                                @if ($nodo5[5] != '- -')
+                                @if ($nodo5[5] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo5[5] }} - {{ $nodo5[10] }} pz</button><br>
                                 @endif
-                                @if ($nodo5[7] != '- -')
+                                @if ($nodo5[7] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo5[7] }} - {{ $nodo5[11] }} pz</button><br>
                                 @endif
-                                @if ($nodo5[9] != '- -')
+                                @if ($nodo5[9] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo5[9] }} - {{ $nodo5[12] }} pz</button><br>
                                 @endif
                                 <table border="0" style="width: 100%; font-size: 11px" class="tabBonos">
@@ -442,13 +443,13 @@
                                     {{ $rangosLetra[$nodo2[1]] }}
                                 </button><br>
                                 <hr style="border: 1px solid #00aa97; margin-bottom: 0"><br>
-                                @if ($nodo2[5] != '- -')
+                                @if ($nodo2[5] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo2[5] }} - {{ $nodo2[10] }} pz</button><br>
                                 @endif
-                                @if ($nodo2[7] != '- -')
+                                @if ($nodo2[7] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo2[7] }} - {{ $nodo2[11] }} pz</button><br>
                                 @endif
-                                @if ($nodo2[9] != '- -')
+                                @if ($nodo2[9] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo2[9] }} - {{ $nodo2[12] }} pz</button><br>
                                 @endif
                                 <table border="0" style="width: 100%; font-size: 11px" class="tabBonos">
@@ -532,13 +533,13 @@
                                     {{ $rangosLetra[$nodo4[1]] }}
                                 </button><br>
                                 <hr style="border: 1px solid #00aa97; margin-bottom: 0"><br>
-                                @if ($nodo4[5] != '- -')
+                                @if ($nodo4[5] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo4[5] }} - {{ $nodo4[10] }} pz</button><br>
                                 @endif
-                                @if ($nodo4[7] != '- -')
+                                @if ($nodo4[7] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo4[7] }} - {{ $nodo4[11] }} pz</button><br>
                                 @endif
-                                @if ($nodo4[9] != '- -')
+                                @if ($nodo4[9] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo4[9] }} - {{ $nodo4[12] }} pz</button><br>
                                 @endif
                                 <table border="0" style="width: 100%; font-size: 11px" class="tabBonos">
@@ -622,13 +623,13 @@
                                     {{ $rangosLetra[$nodo6[1]] }}
                                 </button><br>
                                 <hr style="border: 1px solid #00aa97; margin-bottom: 0"><br>
-                                @if ($nodo6[5] != '- -')
+                                @if ($nodo6[5] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo6[5] }} - {{ $nodo6[10] }} pz</button><br>
                                 @endif
-                                @if ($nodo6[7] != '- -')
+                                @if ($nodo6[7] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo6[7] }} - {{ $nodo6[11] }} pz</button><br>
                                 @endif
-                                @if ($nodo6[9] != '- -')
+                                @if ($nodo6[9] != '-')
                                     <button style="border-radius: 50%; width: 100%; background-color: transparent; margin-bottom: 5px; font-size: 10px">{{ $nodo6[9] }} - {{ $nodo6[12] }} pz</button><br>
                                 @endif
                                 <table border="0" style="width: 100%; font-size: 11px" class="tabBonos">

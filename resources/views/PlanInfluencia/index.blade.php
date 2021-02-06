@@ -20,6 +20,11 @@
 @endsection
 
 @section('Aviso')
+        <div class="alert alert-info" style="text-align: center !important">
+            <a href="javascript:void(0)" class="alert-link fuente" style="text-align: center; font-size: 26px;">
+                Te informamos que el cálculo del bono Kintai se hará hasta el cierre de mes, agradecemos tu comprensión.
+            </a>
+        </div>
     @if($day >= 1 && $day <= 10)
         <div class="alert alert-info">
             <a href="javascript:void(0)" class="alert-link fuente" style="text-align: center; font-size: 16px;">Estamos iniciando el Plan de Influencia 3.0. Considera que en el cambio de rango pueden existir modificaciones</a>
@@ -49,7 +54,7 @@
     <div class="container text-center">
         <h3 style="color: #000;">{{ $nombreAbi ?? ' ' }}</h3>
         <h3>Ganancia Total: <label class="amount">{{ $simboloPrecio }}{{ $Total }}</label> </h3>
-        <h4 style="color: #000;">MOSTRANDO PERIODO: JUNIO</h4>
+        <h4 style="color: #000;">MOSTRANDO PERIODO: ENERO</h4>
         <button type="button" id="Genealogy" name="detail" class="btn btn-deep-orange waves-effect waves-light" hidden>
             Jugadores de mi grupo personal
         </button>
@@ -72,7 +77,7 @@
     @php $count = 0; @endphp
     @foreach($data as $Section)
         @php $count++; @endphp
-        @if ($count != 2)
+        @if ($count != 2 && $count == 1)
             <div class="container" id="D1">
                 <div class="row">
                     <div class="col-sm-3">
@@ -91,7 +96,7 @@
                     </div>
                 </div>
             </div>
-        @else
+        @elseif($count == 2)
             <input type="hidden" value="{{ $associateid }}" id="associateid">
             <input type="hidden" value="{{ $kintaiFinal }}" id="kintaiWinner">
             <input type="hidden" value="{{ $simboloPrecio }}{{ $PriceKintai }}" id="amountWinn">
@@ -117,7 +122,7 @@
     @endforeach
  
     <!--MODAL GANADOR-->
-    <div class="modal fade" id="modalPush" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: auto;">
+    <div class="modal fade" id="modalPush-" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: auto;">
         <div class="modal-dialog modal-notify modal-success" role="document" style="height: auto;">
             <div class="modal-content text-center" style="height: auto;">
                 <div class="modal-header d-flex justify-content-center" >
@@ -378,13 +383,84 @@
         <div class="col-sm-8 col-md-4">
             <div class="form-group">
                 <label for="period">Mes de consulta</label>
-                    <select class="form-control" id="period" onchange="getEdoCta(this.value)">
+                <select class="form-control" id="period" onchange="getEdoCta(this.value)">
                     <option value="-" selected disabled>Selecciona...</option>
-                    <option value="Junio">Junio 2020</option>
-                    <option value="Mayo">Mayo 2020</option>
-                    <option value="Abril">Abril 2020</option>
-                    <option value="Marzo">Marzo 2020</option>
-                    <option value="Febrero">Febrero 2020</option>
+                    @php
+                        $añoAct = date('o');
+                        $añoAct = $añoAct - 1;
+                        for($i=date('o'); $i>=$añoAct; $i--){
+                            for ($e=12; $e>=1; $e--){
+                                $meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                                $mes=$meses[$e - 1];
+                                if ($e == date('m')){
+                                    if($i == date("Y")){
+                                        if($e <= date("n")){
+                                            if($e < 10){
+                                                if(Date('d') > 15){
+                                                    echo '
+                                                        <option value="'.$i.'0'.$e.'" selected>'.$mes.' '.$i.'</option>
+                                                    ';
+                                                }
+                                            }
+                                            else{
+                                                if(Date('d') > 15){
+                                                    echo '
+                                                        <option value="'.$i.$e.'">'.$mes.' '.$i.'</option>
+                                                    '; 
+                                                }
+                                                else{
+                                                    echo '
+                                                        <option value="'.$i.$e.'" selected>'.$mes.' '.$i.'</option>
+                                                    '; 
+                                                }
+                                            }
+                                        }
+                                        else{}
+                                    }
+                                    else{
+                                        if($e < 10){
+                                            echo '
+                                                <option value="'.$i.'0'.$e.'">'.$mes.' '.$i.'</option>
+                                            ';
+                                        }
+                                        else{
+                                            echo '
+                                                <option value="'.$i.$e.'">'.$mes.' '.$i.'</option>
+                                            '; 
+                                        }
+                                    }
+                                }
+                                else{
+                                    if($i == date("Y")){
+                                        if($e <= date("n")){
+                                            if($e < 10){
+                                                echo '
+                                                    <option value="'.$i.'0'.$e.'">'.$mes.' '.$i.'</option>
+                                                ';
+                                            }
+                                            else{
+                                                echo '
+                                                    <option value="'.$i.$e.'">'.$mes.' '.$i.'</option>
+                                                '; 
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        if($e < 10){
+                                            echo '
+                                                <option value="'.$i.'0'.$e.'">'.$mes.' '.$i.'</option>
+                                            ';
+                                        }
+                                        else{
+                                            echo '
+                                                <option value="'.$i.$e.'">'.$mes.' '.$i.'</option>
+                                            '; 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    @endphp
                 </select>
             </div>
         </div>
@@ -414,7 +490,7 @@
                     <div class="modal-body">
                         <div class="py-3 text-center">
                             <video controls="true" class="embed-responsive-item" width="100%">
-                                <source src="http://services.nikken.com.mx/fpro/img/NCINF/controlador_2.mp4" type="video/mp4" />
+                                <source src="https://services.nikken.com.mx/fpro/img/NCINF/controlador_2.mp4" type="video/mp4" />
                             </video>
                         </div>
                     </div>

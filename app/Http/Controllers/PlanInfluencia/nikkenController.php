@@ -27,6 +27,7 @@ class nikkenController extends Controller{
 		else{
 			$period = Date('Ym') - 1;
 		}
+		//return $period;
 		$exponente='';
 		$abi = $abi;
 		if(!is_numeric($abi)){
@@ -151,11 +152,14 @@ class nikkenController extends Controller{
 			}
 
 			//QUERY PRECIO KINTAI POR PAIS
+			if($Country == 'MEX'){
+				$Country ='LAT';
+			}
 			$queryPKCountry = $conexion->table('ItemNikkenChallenge')
 				->distinct('Kintai')
 				->where('Country','=', $Country)
 				->first();
-
+			
 			$PriceKintaiCountry = number_format($queryPKCountry->Kintai,2);
 			$PriceKintaiCountryExponent = $queryPKCountry->Kintai;
 		
@@ -205,7 +209,8 @@ class nikkenController extends Controller{
 				//->where('TipDoc','=', 'OV')
 				->where('Associateid','=', $abi)
 				->where('Periodo','=', $period)
-				->take(5)
+				//->take(5)
+				->distinct()
 				->get();
 
 			//QUERY DATOS DETALLE KINYA+ LV1
@@ -249,7 +254,7 @@ class nikkenController extends Controller{
 					->where('EdoCta_NikkenChallenge_KinYaL2.Owner','=', $abi)
 					->where('EdoCta_NikkenChallenge_KinYaL2.Periodo','=', $period)
 					->union($postSubtitle)
-					->take(5)
+					//->take(5)
 					->get();
 			}
 			else {
@@ -260,7 +265,7 @@ class nikkenController extends Controller{
 					->select('EdoCta_NikkenChallenge_KinTai.*','Pata_NikkenChallenge.level', 'Pata_NikkenChallenge.pata')
 					->where('EdoCta_NikkenChallenge_KinTai.Owner','=', $abi)
 					->where('EdoCta_NikkenChallenge_KinTai.Periodo','=', $period)
-					->take(5)
+					//->take(5)
 					->get();
 			}
 
@@ -501,7 +506,7 @@ class nikkenController extends Controller{
 		];
 
 		$abi = $request->associateid;
-		$period = Date('Y') . $meses[$request->periodo];
+		$period = $request->periodo;
 		
 		$conexion=DB::connection('sqlsrv2');
 		$quantity = 0;
@@ -559,6 +564,8 @@ class nikkenController extends Controller{
 			->where('period','=', $period)
 			->first();
 
+		//return $this->pre($Datos);
+		
 		if (!$Datos) {
 			$quantity = 0;
 			$queryKinyaDetail= [];
@@ -587,7 +594,7 @@ class nikkenController extends Controller{
 			$Country=$Datos->Pais;
 			$Total=$Datos->Total_Amount;
 			$PriceKinyaPlus= number_format($PriceKinyaPlusFirst + $PriceKinyaPlusSecond,2);
-
+			
 			switch ($Country){
 				case 'COL': 
 					$CountryName='COLOMBIA';
@@ -658,29 +665,25 @@ class nikkenController extends Controller{
 
 			$PriceKintaiCountry = number_format($queryPKCountry->Kintai,2);
 
+			
 			//NOMBRE DE ASESOR
 			$queryName = $conexion->table('Historico_EdoCta_NikkenChallenge_KinYa')
 				->select('Nombre')
 				->where('Associateid','=', $abi)
 				->where('Periodo','=', $period)
 				->first();
-			$name = $queryName->Nombre;
-
-			// Obtener el total del bono por influencia
-			$bonoTotalInfluencia = $conexion->table('Historico_Influencer_Bonus')
-				->select('Total_Amount')
-				->where('Influencer','=', $abi)
-				->where('Periodo','=', $period)
+			if(!$queryName){
+				$queryName = DB::connection('sqlsrv5')->table('puntos2020')
+				->select('AssociateName')
+				->where('Associateid','=', $abi)
+				->where('Periodo','=', 202101)
 				->get();
-				
-			if(sizeof($bonoTotalInfluencia) <= 0){
-				$bonoInfTotal = 0;
+				$name = $queryName[0]->AssociateName;
+				\DB::disconnect('sqlsrv5');
 			}
 			else{
-				$bonoInfTotal = $bonoTotalInfluencia[0]->Total_Amount;
+				$name = $queryName->Nombre;
 			}
-			
-			$Total = number_format($Total + $bonoInfTotal, 2);
 
 			$conexion = \DB::connection('sqlsrv2');
 				$tabDetallesInfluencia = $conexion->select("SELECT b.AssociateName AS apfirstname, a.Associateid AS Associateid, a.Ordernum AS Ordernum, a.Fecha_Orden AS Orderdate, a.Periodo AS Periodo, a.Kit_Influencer AS itemcode, a.Descripcion AS Descripcion, a.Qty_Item AS Qty_Item, a.Bono_Una_Unidad AS Bono_Tres_Unidades_o_Mas, a.Owner_Influencer AS Owner_Influencer, a.owner_country AS owner_country 
@@ -702,6 +705,33 @@ class nikkenController extends Controller{
 																	GROUP BY b.AssociateName,a.Associateid, a.Ordernum, a.Orderdate, a.Periodo, a.itemcode, a.Descripcion,a.Qty_Item,a.Bono_Tres_Unidades_o_Mas,a.Owner_Influencer,a.owner_country;");
 					}
 				}
+
+				// Obtener el total del bono por influencia
+				$bonoTotalInfluencia = $conexion->table('Historico_Influencer_Bonus')
+					->select('Total_Amount')
+					->where('Influencer','=', $abi)
+					->where('Periodo','=', $period)
+					->get();
+					
+				$bonoTotalInfluencia = $conexion->select("SELECT influencer FROM Historico_Result_NKChallenge WHERE Associateid = $abi AND period = $period");
+					
+				if(sizeof($bonoTotalInfluencia) <= 0){
+					$bonoInfTotal = 0;
+				}
+				else{
+					$bonoInfTotal = $bonoTotalInfluencia[0]->influencer;
+				}
+				
+				$totalBonoInfluencia = 0;
+				if(sizeof($tabDetallesInfluencia) > 0 || sizeof($bonoTotalInfluencia) <= 0 && $period == 202007){
+					for ($i=0; $i < sizeof($tabDetallesInfluencia); $i++) { 
+						$totalBonoInfluencia = $totalBonoInfluencia + $tabDetallesInfluencia[$i]->Bono_Tres_Unidades_o_Mas;
+					}
+					$bonoInfTotal = $totalBonoInfluencia;
+				}
+				
+				//$Total = number_format($Total + $bonoInfTotal, 2);
+				$Total = number_format($Total, 2);
 			\DB::disconnect('sqlsrv2');
 		}
 
@@ -722,7 +752,6 @@ class nikkenController extends Controller{
 			'bonoInfTotal' => $bonoInfTotal,
 			'tabDetallesInfluencia' => $tabDetallesInfluencia,
 		]);
-
 		return $pdf->stream();
 	}
 
@@ -800,5 +829,9 @@ class nikkenController extends Controller{
 			'data' => $queryGenealogy,
 		];
 		return $data;
+	}
+
+	public function pre($query){
+		echo "<pre>"; print_r($query); echo "</pre>"; exit;
 	}
 }

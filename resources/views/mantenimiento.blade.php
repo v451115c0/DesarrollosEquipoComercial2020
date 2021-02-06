@@ -64,7 +64,7 @@
                 position: absolute;
                 filter: blur(3px);
                 -webkit-filter: blur(3px);
-                background: #1b1c25 url("fpro/img/dark-forest2.jpg") no-repeat fixed;
+                background: #1b1c25 url("../fpro/img/dark-forest2.jpg") no-repeat fixed;
                 background-size: cover;
             }
         </style>

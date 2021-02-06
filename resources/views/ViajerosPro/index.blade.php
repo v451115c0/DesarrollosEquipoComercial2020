@@ -23,6 +23,11 @@
 
 		<link rel="stylesheet" type="text/css" href="{{ asset('fproh/plugins/sweetalerts/sweetalert2.min.css') }}"/>
 		<link rel="stylesheet" type="text/css" href="{{ asset('fproh/plugins/sweetalerts/sweetalert.css') }}"/>
+		<style>
+			body{
+				background-image: unset !important;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="navHeadWrapper" class="navHeaderWrapper header-image">
@@ -49,7 +54,7 @@
 										<a id="navlink" class="nav-link js-scroll-trigger" href="#whyusWrapper">Requisitos</a>
 									</li>
 									<li class="nav-item">
-										<a id="navlink" class="nav-link js-scroll-trigger" href="#premios">Premios</a>
+										<a id="navlink" class="nav-link js-scroll-trigger" href="#premios" hidden>Premios</a>
 									</li>
 									<li class="nav-item">
 										<a id="navlink" class="nav-link js-scroll-trigger" href="#servicesWrapper">Términos y Condiciones</a>
@@ -72,8 +77,8 @@
 							<div class="row ml-1 mr-1 container-fluid pb-4">
 								<div class="col-xl-12 col-md-12 col-sm-12 col-12 text-center mt-4">
 									@php
-										$flag = ['PER' => 'peru.png', 'LAT' => 'mexico.png', 'COL' => 'colombia.png', 'CHL' => 'chile.png', 'ECU' => 'ecuador.png', 'PAN' => 'panama.png', 'SLV' => 'salvador.png', 'GTM' => 'guatemala.png', 'CRI' => 'costarica.png'];
-										$meses = ['202001' => 'Enero', '202002' => 'Febrero', '202003' => 'Marzo', '202004' => 'Abril', '202005' => 'Mayo', '202006' => 'Junio', '202007' => 'Julio', '202008' => 'Agosto', '202009' => 'Septiembre', '202010' => 'Octubre', '202011' => 'Noviembre', '202012' => 'Diciembre'];
+										$flag = ['PER' => 'peru.png', 'MEX' => 'mexico.png', 'LAT' => 'mexico.png', 'COL' => 'colombia.png', 'CHL' => 'chile.png', 'ECU' => 'ecuador.png', 'PAN' => 'panama.png', 'SLV' => 'salvador.png', 'GTM' => 'guatemala.png', 'CRI' => 'costarica.png'];
+										$meses = ['202101' => 'Enero', '202102' => 'Febrero', '202103' => 'Marzo', '202104' => 'Abril', '202105' => 'Mayo', '202106' => 'Junio', '202107' => 'Julio', '202108' => 'Agosto', '202109' => 'Septiembre', '202110' => 'Octubre', '202111' => 'Noviembre', '202112' => 'Diciembre'];
 										$rangosCompletos = ['PLO' => 'PLATINO', 'DIA' => 'DIAMANTE', 'DRL' => 'DIAMANTE REAL', 'EXE' => "EJECUTIVO"];
 										$periodo = $abiInfo[0]->Periodo ?? date('Ym');
 									@endphp
@@ -82,17 +87,10 @@
 										<img src="{{ asset('fpro/img/flags/' . $flag[$abiInfo[0]->Pais ?? 'LAT']) }}" width="40px">
 									</h4>
 									@php
-										date_default_timezone_set('America/Mexico_City');
-										$dia = Date('d');
-										$mes = Date('m');
-										$meses = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-										$mes = DateTime::createFromFormat('!m', $mes);
-										$mes = strftime("%B", $mes->getTimestamp());
-										$mesnum = Date('m');
-										$mesnum = str_replace('0', '', $mesnum);
+										$meses = ['01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo', '04' => 'Abril', '05' => 'Mayo', '06' => 'Junio', '07' => 'Julio', '08' => 'Agosto', '09' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre'];
 									@endphp
 									<div class="col-lg-12">
-										<h6><b>Fecha de actualizacion: {{ $dia }} de {{ $meses[$mesnum] }} a las {{ $lastUpdate ?? '00:00:00' }} hora México.</b></h6>
+										<h6><b>Fecha de actualización: {{ $update['dia'] }} de {{ $meses[$update['mes']] }} a las {{ $update['hora'] ?? '00:00:00' }} hora México.</b></h6>
 									</div>
 									<h5>Estatus Anual</h5>
 									<input type="hidden" id="associateid" readonly value="{{ $associateid }}">
@@ -103,7 +101,7 @@
 										<button class="btn btnicon"><i class="flaticon-calculator"></i></button>
 									</div>
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4">
-										<input type="text" class="form-control br-30 w-100 puntajeInput" readonly value="VGP Acumulado: {{ number_format($abiInfo[0]->VGPacumulado ?? 0) }}">
+										<input type="text" class="form-control br-30 w-100 puntajeInput" readonly value="VGP Acumulado: {{ number_format($abiInfo[0]->VGPLatamAcumu ?? 0) }}">
 										<button class="btn btnicon"><i class="flaticon-calculator"></i></button>
 									</div>
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4 ">
@@ -118,12 +116,12 @@
 										<input type="text" class="form-control br-30 w-100 puntajeInput" readonly value="KinYa! frontales acumulados: {{ $totalsKinya[0]->totalKinyalvl ?? 0 }}">
 										<button class="btn btnicon"><i class="flaticon-avatar"></i></button>
 									</div>
-									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4">
+									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4" hidden>
 										<input type="text" class="form-control br-30 w-100 puntajeInput" readonly id="noRanking" value="# ranking: No participa">
 										<input type="hidden" class="form-control br-30 w-100" readonly id="rankLenght" value="{{ $rankLenght }}">
 										<button class="btn btnicon"><i class="flaticon-avatar"></i></button>
 									</div>
-									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4">
+									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4" hidden>
 										<input type="text" class="form-control br-30 w-100 puntajeInput" readonly value="Participa por: No participa" id="opcionParttxt">
 										<button class="btn btnicon"><i class="flaticon-avatar"></i></button>
 									</div>
@@ -136,7 +134,7 @@
 													<td>Rango Actual: {{ $rangosCompletos[trim($abiInfo[0]->Rango ?? 'DRL', ' ')] }}</td>
 												</tr>
 												<tr>
-													<td>VGP Acumulado: {{ number_format($abiInfo[0]->VGPacumulado ?? 0) }}</td>
+													<td>VGP Acumulado: {{ number_format($abiInfo[0]->VGPLatamAcumu ?? 0) }}</td>
 												</tr>
 												<tr>
 													<td>Meses calificados rango de pago: {{ $abiInfo[0]->NumRangoPagoCumplido ?? 12}}</td>
@@ -181,7 +179,7 @@
 			<div class="container" style="background-color: #ffffff; border-radius: 25px;">
 				<div id="whyusWrapper" class="row">
 					<div class="col-md-12 text-center">
-						<h2 class="section-title mb-2">REQUISITOS </h2>
+						<h2 class="section-title mb-2"></h2>
 					</div>
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
 						<img src="{{ asset('fpro/img/ViajerosPro/ViajeroPremium-2020.06.03.png') }}" width="100%">
@@ -190,7 +188,7 @@
 			</div>
 		</div>
 
-		<div class="scroll-offset navHeaderWrapper mt-5 mb-5">
+		<div class="scroll-offset navHeaderWrapper mt-5 mb-5" hidden>
 			<div class="container mt-5" style="background-color: #ffffffdb; border-radius: 25px;">
 				<div id="premios" class="row requisitos mt-5">
 					<div class="col-md-12 text-center mt-5">
@@ -239,17 +237,43 @@
 
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
 						<i class="flaticon-money"></i>
-						<p class="">Los gastos que no esten estempecificados, deberán ser asumidos por el ganador. </p>
+						<p>El participante deberá contar con 100 Puntos de VP en cada uno de los meses del año.</p>
 					</div>
-
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
 						<i class="flaticon-money"></i>
-						<p class="">Los gastos generados por trámite de visas, pasaportes y documentos en general, serán asumidos por el ganador.</p>
+						<p>Los volúmenes de VGP y el ranking aplican exclusivamente volúmenes de Latinoamérica.</p>
 					</div>
-
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
-						<i class="flaticon-up-chart"></i>
-						<p class="">El premio solo puede cederse a influecers de rango Platino o mayor.</p>
+						<i class="flaticon-money"></i>
+						<p>El participante de acuerdo a su rango, elegirá la opción que realizará para lograr  los requisitos del Reto.<br>Opción 1 para Platinos, Diamantes y Diamantes Reales. - Opción 2 para Diamantes y Diamantes Reales.</p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>En el caso de la opción 1 deberá realizar los requisitos de VP mensual, VGP mensual  y el requisito anual de Plan de influencia  ( 6 kinya personales + 3 kinya frontales del grupo personal) .  Mantener el rango de pago que se indica.</p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>En el caso de la opción 2 deberá realizar los requisitos de VP mensual, VGP mensual y VGP Anual. Mantener el rango de pago que se indica.</p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>En la opción 1 y 2 deberán de estar en el ranking de los mejores 20 VGP anuales de los influencers Platino o mayor.</p>
+					</div>
+					<div class="col-xl-12 col-lg-12 col-md-12 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>Se considerarán los nuevos Platinos que logren avanzar de rango a más tardar en el mes de Junio, a partir de ese momento, deberá calificar todos los meses como Influencer Platino, cumplir los requisitos ¿Qué pasa en caso de los nuevos Platinos? Todos los Influencers tienen hasta el mes de junio para llegar a rango Platino, a partir de ese momento deberán calificar todos los meses su rango de pago Platino para acceder al ranking del viaje crucero a Alaska.</p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>Para los Diamantes Reales que mantengan su rango de pago durante todo el año, se les brindará la oportunidad de pagar el Viaje, sin que realicen los demás requisitos solicitados ni sean parte del Ranking.</p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>Para la opción 2 y el ranking serán considerados al cierre de mes y exclusivamente volúmenes de Latinoamérica.</p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>El cumplimiento de los requisitos deben ser realizados conforme a las políticas del manual del Asesor de Bienestar NIKKEN.</p>
 					</div>
 				</div>
 			</div>
@@ -275,7 +299,7 @@
 			</div>
 		</div>
 
-		<div id="chat">
+		<div id="chat" hidden>
 			<div id="chat-circle" class="btn btn-raised d-lg-block bs-tooltip" data-placement="left" title="Conoce" data-toggle="modal" data-target=".mdl-tutorial">
 				<i class="flaticon-youtube-play-button-line"></i>
 			</div>
@@ -320,17 +344,10 @@
 								<div class="row">
 									<div class="col-lg-12 pb-4">
 										@php
-											date_default_timezone_set('America/Mexico_City');
-											$dia = Date('d');
-											$mes = Date('m');
-											$meses = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-											$mes = DateTime::createFromFormat('!m', $mes);
-											$mes = strftime("%B", $mes->getTimestamp());
-											$mesnum = Date('m');
-											$mesnum = str_replace('0', '', $mesnum);
+											$meses = ['01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo', '04' => 'Abril', '05' => 'Mayo', '06' => 'Junio', '07' => 'Julio', '08' => 'Agosto', '09' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre'];
 										@endphp
-										<div class="col-lg-12 pb-4">
-											<h6>Fecha de actualizacion: {{ $dia }} de {{ $meses[$mesnum] }} a las {{ $lastUpdate ?? '00:00:00' }} hora México.</h6>
+										<div class="col-lg-12">
+											<h6><b>Fecha de actualización: {{ $update['dia'] }} de {{ $meses[$update['mes']] }} a las {{ $update['hora'] ?? '00:00:00' }} hora México.</b></h6>
 										</div>
 									</div>
 									<div class="col-lg-12 text-center mb-2">
@@ -352,7 +369,7 @@
 																<th>VGP Acumulado</th>
 																<th>Rango actual</th>
 																<th>Rango de pago</th>
-																<th>KinYa! personal</th>
+																<th>KinYa! personal mensual</th>
 																<th>KinYa! frontal</th>
 																<th>Califica Rango de Pago</th>
 															</tr>
@@ -361,7 +378,7 @@
 																	<td colspan="8"></td>
 																	<td>
 																		Total: {{ $totalsKinya[0]->totalKinya }}
-																		@if ($totalsKinya[0]->totalKinya >= 1)
+																		@if ($totalsKinya[0]->totalKinya >= 6)
 																			<span class="badge badge-success badge-pill"><i class="flaticon-single-circle-tick"></i> Cumple</span>
 																		@else
 																			<span class="badge badge-danger badge-pill"><i class="flaticon-close"></i> No cumple</span>
@@ -411,17 +428,10 @@
 								<div class="row">
 									<div class="col-lg-12 pb-4">
 										@php
-											date_default_timezone_set('America/Mexico_City');
-											$dia = Date('d');
-											$mes = Date('m');
-											$meses = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-											$mes = DateTime::createFromFormat('!m', $mes);
-											$mes = strftime("%B", $mes->getTimestamp());
-											$mesnum = Date('m');
-											$mesnum = str_replace('0', '', $mesnum);
+											$meses = ['01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo', '04' => 'Abril', '05' => 'Mayo', '06' => 'Junio', '07' => 'Julio', '08' => 'Agosto', '09' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre'];
 										@endphp
-										<div class="col-lg-12 pb-4">
-											<h6>Fecha de actualizacion: {{ $dia }} de {{ $meses[$mesnum] }} a las {{ $lastUpdate }} hora México.</h6>
+										<div class="col-lg-12">
+											<h6><b>Fecha de actualización: {{ $update['dia'] }} de {{ $meses[$update['mes']] }} a las {{ $update['hora'] ?? '00:00:00' }} hora México.</b></h6>
 										</div>
 									</div>
 									<div class="col-lg-12 text-center mb-2">
@@ -442,17 +452,12 @@
 																<th>VGP Acumulado</th>
 																<th>
 																	@php
-																		$periodos = ['202001'=>'Enero', '202002'=>'Febrero', '202003'=>'Marzo', '202004'=>'Abril', '202005'=>'Mayo', '202006'=>'Junio', '202007'=>'Julio', '202008'=>'Agosto', '202009'=>'Septiembre', '202010'=>'Octubre', '202011'=>'Noviembre', '202012'=>'Diciembre'];
-																		if(Date('d') >= 14){
-																			$period = Date('Ym');
-																		}
-																		else{
-																			$period = Date('Ym') - 2;
-																		}
+																		$periodos = ['202101'=>'Enero', '202102'=>'Febrero', '202103'=>'Marzo', '202104'=>'Abril', '202105'=>'Mayo', '202106'=>'Junio', '202107'=>'Julio', '202108'=>'Agosto', '202109'=>'Septiembre', '202110'=>'Octubre', '202111'=>'Noviembre', '202112'=>'Diciembre'];
+																		$period = Date('Ym');
 																	@endphp
 																	Meses calificados rango de pago <br> (Enero - {{ $periodos[$period] }})
 																</th>
-																<th># KinYa! Personales</th>
+																<th># KinYa! Personales mensual</th>
 																<th># KinYa! Frontales</th>
 																<th>Participa por:</th>
 															</tr>
@@ -481,6 +486,13 @@
 	<script src="{{ asset('fpro/js/aos.js') }}"></script>
 	<script src="{{ asset('fproh/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
 	<script src="{{ asset('fpro/mainjs/ViajerosPro/viajerospro.js') }}"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-153578520-1');
+	</script>
 	@if (trim($abiInfo[0]->Rango ?? 'PLA', ' ') != 'PLO' && trim($abiInfo[0]->Rango ?? 'PLA', ' ') != 'DIA' && trim($abiInfo[0]->Rango ?? 'PLA', ' ') != 'DRL')
 		<script>
 			swal({

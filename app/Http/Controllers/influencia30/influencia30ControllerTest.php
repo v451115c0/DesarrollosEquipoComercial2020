@@ -230,7 +230,7 @@ class influencia30ControllerTest extends Controller{
         }
 
         $conexion = \DB::connection('sqlsrv2');
-            $bonos = $conexion->select("EXEC [SP_SimuladorPlanInfluencia_TEST] 
+            $bonos = $conexion->select("EXEC [SP_SimuladorPlanInfluencia] 
             '0=0;1=$piw1;2=$piw2;3=$piw3;4=$piw4;5=$piw5;6=$piw6;7=$piw7',--pw
             '0=0;1=$ap1;2=$ap2;3=$ap3;4=$ap4;5=$ap5;6=$ap6;7=$ap7',--ap
             '0=0;1=$wf1;2=$wf2;3=$wf3;4=$wf4;5=$wf5;6=$wf6;7=$wf7', --wf

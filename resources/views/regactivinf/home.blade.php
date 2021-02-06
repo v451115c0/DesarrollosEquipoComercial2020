@@ -52,11 +52,20 @@
                 </li>
 
                 <li class="menu">
-                    <!--<a href="../regactivinf/{{ base64_encode($associateid) }}" aria-expanded="false">-->
-                        <a href="../regactivinf/{{ $associateid }}" aria-expanded="false">
+                    <a href="../regactivinf/{{ base64_encode($associateid) }}" aria-expanded="false">
+                    <!--<a href="../regactivinf/{{ $associateid }}" aria-expanded="false">-->
                         <div>
                             <i class="flaticon-stats"></i>
                             <span>Plan de Influencia</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="menu">
+                    <a href="http://services.nikken.com.mx/simulador" aria-expanded="false" target="_new">
+                    <!--<a href="../regactivinf/{{ $associateid }}" aria-expanded="false">-->
+                        <div>
+                            <i class="flaticon-money"></i>
+                            <span>Simulador Nikken Challenge</span>
                         </div>
                     </a>
                 </li>

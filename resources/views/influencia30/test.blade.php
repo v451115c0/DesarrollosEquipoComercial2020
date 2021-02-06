@@ -145,7 +145,7 @@
                             <h6>De las personas que tu conoces, ¿Quienes crees les gustaría tener este producto?</h6>
                         </div>
                         <form id="Jugadores" class="row">
-                            <div class=" players-groups ml-1 mr-1" style="width: 100%">
+                            <div class=" players-groups ml-1 mr-1">
                                 <div class="row layout-spacing">
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 layout-spacing item1">
                                         <input type="text" class="form-control-rounded form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="jugadorLinea1" placeholder="Ingresa un nombre">
@@ -379,7 +379,7 @@
                 <div class="modal-body">
                     <div class="py-3 text-center">
                         <video controls="true" class="embed-responsive-item" width="100%">
-                            <source src="{{ asset('fproh/img/influencia30/simulador_4.mp4') }}" type="video/mp4" />
+                            <source src="http://services.nikken.com.mx/fproh/img/influencia30/simulador_4.mp4" type="video/mp4" />
                         </video>
                     </div>
                 </div>
