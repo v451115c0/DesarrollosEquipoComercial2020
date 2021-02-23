@@ -105,8 +105,7 @@ Route::get('/getLastPost', 'myNikLatInfoCenter\myNikLatInfoCenterController@getL
 
 /*=== Simulador Plan de Influencia 3.0 ===*/
 Route::get('/influencia30/{associateid?}', 'influencia30\influencia30Controller@menul');
-Route::get('/influencia30M
-	/{associateid?}', 'influencia30\influencia30Controller@influencia30');
+Route::get('/influencia30M/{associateid?}', 'influencia30\influencia30Controller@influencia30');
 Route::get('/influencia30H/{lang?}/{associateid?}', 'influencia30\influencia30Controller@influencia30');
 Route::get('/simInfGetIntervals', 'influencia30\influencia30Controller@simInfGetIntervals');
 Route::get('/simInfGmetBonos', 'influencia30\influencia30Controller@simInfGmetBonos');
@@ -190,12 +189,34 @@ Route::get('reporteMKTInc1USDKitsPeriodo', 'Reportes\ReportesController@reportem
 Route::get('reportemokutekiResumen', 'Reportes\ReportesController@reportemokutekiResumen'); // Resumen kit Mokuteki
 Route::get('Incorporacion_Frontal', 'Reportes\ReportesController@Incorporacion_Frontal'); // Incorporacion_Frontal MyNIKKEN
 Route::get('Grupo_Frontalidad', 'Reportes\ReportesController@Grupo_Frontalidad'); // Grupo_Frontalidad MyNIKKEN
+Route::get('avancesSerPro', 'Reportes\ReportesController@avancesSerPro'); // reporte de avances SER PRO
 
 /*=== CMS Nikkenlatam ===*/
 Route::get('cmsmynikken/addNotify', 'CMSMyNikken\CMSMyNikkenController@index');
 Route::post('addNotifyMyNikken', 'CMSMyNikken\CMSMyNikkenController@addNotifyMyNikken');
 Route::get('cmsmynikken/depuraciones', 'CMSMyNikken\CMSMyNikkenController@depuraciones');
 Route::get('validaClienteAntes', 'CMSMyNikken\CMSMyNikkenController@validaClienteAntes');
+Route::get('cmsdepuracliente', 'CMSMyNikken\CMSMyNikkenController@cmsdepuracliente');
+Route::get('validaCICBUsers', 'CMSMyNikken\CMSMyNikkenController@validaCICBUsers');
+Route::get('validaCICBContracts', 'CMSMyNikken\CMSMyNikkenController@validaCICBContracts');
+Route::get('validaCICBControl_ci', 'CMSMyNikken\CMSMyNikkenController@validaCICBControl_ci');
+Route::get('cmsCambiarMailCICLUB', 'CMSMyNikken\CMSMyNikkenController@cmsCambiarMailCICLUB');
+Route::get('cmsManejoTickets', 'CMSMyNikken\CMSMyNikkenController@cmsManejoTickets');
+Route::get('cmsActivaCICB', 'CMSMyNikken\CMSMyNikkenController@cmsActivaCICB');
+Route::get('cmsInactivaCICB', 'CMSMyNikken\CMSMyNikkenController@cmsInactivaCICB');
+Route::get('cmsCambiaNombreCICB', 'CMSMyNikken\CMSMyNikkenController@cmsCambiaNombreCICB');
+Route::get('cmsCambiasponsorCICB', 'CMSMyNikken\CMSMyNikkenController@cmsCambiasponsorCICB');
+Route::get('cmsDepurarCICB', 'CMSMyNikken\CMSMyNikkenController@cmsDepurarCICB');
+Route::get('cmsRestPasswordCliente', 'CMSMyNikken\CMSMyNikkenController@cmsRestPasswordCliente');
+Route::get('cmsresetPassCICB', 'CMSMyNikken\CMSMyNikkenController@cmsresetPassCICB');
+Route::get('cmsChangeRango', 'CMSMyNikken\CMSMyNikkenController@cmsChangeRango');
+Route::get('cmsChangeTel', 'CMSMyNikken\CMSMyNikkenController@cmsChangeTel');
+Route::get('cmschangeMailCliente', 'CMSMyNikken\CMSMyNikkenController@cmschangeMailCliente');
+Route::get('cmsObtenerCodesSerPro', 'CMSMyNikken\CMSMyNikkenController@cmsObtenerCodesSerPro');
+Route::get('cmsSendMailsSerPro', 'CMSMyNikken\CMSMyNikkenController@cmsSendMailsSerPro');
+Route::get('serProAvanceMailView', 'CMSMyNikken\CMSMyNikkenController@serProAvanceMailView');
+Route::get('cmschangeCountryCICB', 'CMSMyNikken\CMSMyNikkenController@cmschangeCountryCICB');
+Route::get('cmsGetVentasClientes', 'CMSMyNikken\CMSMyNikkenController@cmsGetVentasClientes');
 
 /*=== retos especiales 2021 ===*/
 Route::get('retosEspeciales2021/{associateid}', 'ViajerosPro\ViajerosProController@menuRetos');
@@ -225,3 +246,15 @@ Route::get('mantenimiento', 'puntos_connection\puntos_connectionController@mante
 /*=== Reconocimientos ===*/
 route::get('reconocimientos', 'Reconocimientos\ReconocimientosController@reconocimientos');
 route::get('getReportReconocimientos', 'Reconocimientos\ReconocimientosController@getReportReconocimientos');
+route::get('recAvances', 'Reconocimientos\ReconocimientosController@recAvances');
+
+/*=== Alcacnía nikken ===*/
+route::get('MyAlcacnia/{associateid}', 'Reconocimientos\ReconocimientosController@MyAlcacnia');
+route::get('MyAlcacniaData', 'Reconocimientos\ReconocimientosController@MyAlcacniaData');
+route::get('MyAlcacniaDataDetail', 'Reconocimientos\ReconocimientosController@MyAlcacniaDataDetail');
+route::get('MyAlcacniaDataRed', 'Reconocimientos\ReconocimientosController@MyAlcacniaDataRed');
+
+/************* 	RUTAS REPORTES VENTAS EDDIE SOTO *****************/
+Route::get('reports', 'Reports\ReportsController@reports');
+Route::get('login', 'Reports\ReportsController@login');
+Route::get('ventas', 'Reports\ReportsController@Ventas');

@@ -57,3 +57,6 @@
     <script src="{{ asset('fpro/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('fpro/mainjs/ncinf/ncinf.js') }}"></script>
 </html>
+
+
+-stand by hasta 

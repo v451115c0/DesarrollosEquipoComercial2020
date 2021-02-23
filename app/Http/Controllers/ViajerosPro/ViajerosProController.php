@@ -381,85 +381,11 @@ class ViajerosProController extends Controller{
             //$actual = $conexion->select("SELECT associateid,PV AS VP,GV AS VGP,OV AS VO,QOVOPL,QOVOPSL,Period AS Periodo FROM [LAT_MyNIKKEN].[dbo].[VolumeHistory] with(nolock) WHERE Associateid like'%03' and Period=convert(char(6),getdate(),112)---Actual");
             $actual = "";
             //$anterior = $conexion->select("SELECT associateid,PV AS VP,GV AS VGP,OV AS VO,QOVOPL,QOVOPSL,Period AS Periodo FROM [LAT_MyNIKKEN].[dbo].[VolumeHistory] with(nolock) WHERE Associateid like'%03' and Period = CONVERT(char(6), EOMONTH(getdate(),-1),112)---Anterior");
-            $anterior = $conexion->select("SELECT associateid,PV AS VP,GV AS VGP,OV AS VO,QOVOPL,QOVOPSL,Period AS Periodo FROM [LAT_MyNIKKEN].[dbo].[VolumeHistory] with(nolock) WHERE Associateid like'%03' and Period = 202101---Anterior");
+            $anterior = $conexion->select("SELECT associateid,PV AS VP,GV AS VGP,OV AS VO,QOVOPL,QOVOPSL,Period AS Periodo FROM [LAT_MyNIKKEN].[dbo].[VolumeHistory] with(nolock) WHERE Associateid like'%03' and Period = 202102---Anterior");
         \DB::disconnect('sqlsrv5');
         
         \Excel::create($fileName, function($excel) use ($actual, $anterior) {
-            /*$excel->sheet('Periodo Actual', function($sheet) use ($actual) {
-                $sheet->cell('A2', function($cell){
-                    $cell->setValue('Código Asesor');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                $sheet->cell('B2', function($cell){
-                    $cell->setValue('VP');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                $sheet->cell('C2', function($cell){
-                    $cell->setValue('VGP');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                $sheet->cell('D2', function($cell){
-                    $cell->setValue('VO');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                $sheet->cell('E2', function($cell){
-                    $cell->setValue('QOVOPL');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                $sheet->cell('F2', function($cell){
-                    $cell->setValue('QOVOPSL');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                $sheet->cell('G2', function($cell){
-                    $cell->setValue('Periodo');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                // Mostramos los registros
-                foreach ($actual as $idx => $row){
-                    $idx = ($idx  + 3);
-                    $sheet->cell('A'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->associateid);
-                    });
-                    
-                    $sheet->cell('B'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->VP);
-                    });
-
-                    $sheet->cell('C'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->VGP);
-                    });
-
-                    $sheet->cell('D'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->VO);
-                    });
-
-                    $sheet->cell('E'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->QOVOPL);
-                    });
-
-                    $sheet->cell('F'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->QOVOPSL);
-                    });
-
-                    $sheet->cell('G'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->Periodo);
-                    });
-                }
-            });*/
+            
 
             $excel->sheet('Periodo Anterior', function($sheet) use ($anterior) {
                 $sheet->cell('A2', function($cell){
@@ -838,7 +764,7 @@ class ViajerosProController extends Controller{
                 ->where('associateid', '=', $associateid)
                 ->get();
             
-            $response = $conexion5->select("SELECT * FROM Gen_KaizenIncorporados($associateid)");
+            $response = $conexion5->select("SELECT SUM(VpTotal) AS vpTOTAL FROM Gen_KaizenIncorporados($associateid)");
 
             $totalsKinya = $conexion5->select("SELECT SUM(kinya) AS totalKinya, SUM(KinYaL1) AS totalKinyalvl FROM Puntos2020 WHERE associateid = $associateid");
             $lastUpdate = $conexion5->select("SELECT TOP 1 Last_Update FROM Historico_Ejecucion WHERE Programa = 'Retos_Especiales' ORDER BY Last_Update DESC;");
@@ -953,10 +879,10 @@ class ViajerosProController extends Controller{
         $associatename = $request->associatename;
         
         $conexion5 = \DB::connection('sqlsrv5');
-            $exist = $conexion5->select("SELECT Associateid FROM RETOS_ESPECIALES_TEST.dbo.Cuestionario_PLA WHERE Associateid = $associateid");
+            $exist = $conexion5->select("SELECT Associateid FROM Cuestionario_PLA WHERE Associateid = $associateid");
             if(sizeof($exist) <=  0){
-                $reg = $conexion5->insert("INSERT INTO RETOS_ESPECIALES_TEST.dbo.Cuestionario_PLA VALUES('$associateid', '$associatename', '$mentor', '5', '$pilar', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$comentario', '$prg9_1', '$prg9_2', '$fecha_reg', '0', '0', '$associatePais')");
-                $update = $conexion5->update("UPDATE RETOS_ESPECIALES_TEST.dbo.Rangos_Avance_SerPro SET Contestado = 1 WHERE numci = $associateid");
+                $reg = $conexion5->insert("INSERT INTO Cuestionario_PLA VALUES('$associateid', '$associatename', '$mentor', '5', '$pilar', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$comentario', '$prg9_1', '$prg9_2', '$fecha_reg', '0', '0', '$associatePais')");
+                $update = $conexion5->update("UPDATE Rangos_Avance_SerPro SET Contestado = 1 WHERE numci = $associateid");
             }
         \DB::disconnect('sqlsrv5');
         
@@ -994,10 +920,10 @@ class ViajerosProController extends Controller{
         $Pais = $request->Pais;
         
         $conexion5 = \DB::connection('sqlsrv5');
-            $exist = $conexion5->select("SELECT Associateid FROM RETOS_ESPECIALES_TEST.dbo.Cuestionario_ORO WHERE Associateid = $Associateid");
+            $exist = $conexion5->select("SELECT Associateid FROM Cuestionario_ORO WHERE Associateid = $Associateid");
             if(sizeof($exist) <=  0){
-                $reg = $conexion5->insert("INSERT INTO RETOS_ESPECIALES_TEST.dbo.Cuestionario_ORO VALUES('$Associateid', '$AssociateName', '$Mentor', '$Avance_Rango', '$Pregunta1', '$Pregunta2', '$Pregunta3', '$Pregunta4', '$Pregunta5', '$Pregunta6', '$Pregunta7', '$Pregunta8', '$Pregunta9', '$Pregunta10_1', '$Pregunta10_2', '$Pregunta10_3', '$FechaRegistro', '$Aprobacion', '$TotalPregunta', '$Pais')");
-                $update = $conexion5->update("UPDATE RETOS_ESPECIALES_TEST.dbo.Rangos_Avance_SerPro SET Contestado = 1 WHERE numci = $Associateid");
+                $reg = $conexion5->insert("INSERT INTO Cuestionario_ORO VALUES('$Associateid', '$AssociateName', '$Mentor', '$Avance_Rango', '$Pregunta1', '$Pregunta2', '$Pregunta3', '$Pregunta4', '$Pregunta5', '$Pregunta6', '$Pregunta7', '$Pregunta8', '$Pregunta9', '$Pregunta10_1', '$Pregunta10_2', '$Pregunta10_3', '$FechaRegistro', '$Aprobacion', '$TotalPregunta', '$Pais')");
+                $update = $conexion5->update("UPDATE Rangos_Avance_SerPro SET Contestado = 1 WHERE numci = $Associateid");
             }
         \DB::disconnect('sqlsrv5');
         if(sizeof($exist) >  0){

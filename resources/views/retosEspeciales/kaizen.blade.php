@@ -300,10 +300,6 @@
 						<div class="table-responsive mb-4">
 							<table id="resumenP" class="table table-striped table-hover table-bordered sticky-thead" style="width:100%">
 								<thead>
-									@php
-										$num = 1;
-										$vpfinal = 0;
-									@endphp
 									<tr>
 										<th style="color: gray" class="text-center">Código Incorporado</th>
 										<th style="color: gray" class="text-center">Nombre Incorporado</th>
@@ -319,7 +315,7 @@
 									<tr class="table-dark">
 										<th colspan="5">Total Volumen Incorporados</th>
 										<th colspan="3" class="text-left">
-											<span id="vpFinalLabel">@php echo number_format($vpfinal, 2); @endphp</span>
+											<span id="vpFinalLabel">@php echo number_format($response[0]->vpTOTAL, 0); @endphp</span>
 										</th>
 									</tr>
 								</tfoot>
@@ -445,6 +441,10 @@
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
 						<i class="flaticon-money"></i>
 						<p>Contarán los volúmenes de todas las unidades de mercado.</p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>El beneficio del Seminario Diamante como premio, no es acumulable con otros retos o incentivos.</p>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
 						<i class="flaticon-money"></i>

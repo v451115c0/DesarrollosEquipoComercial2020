@@ -18,7 +18,14 @@ function initCalc(){
     setIsoMoney();
     $("#rangoPadre").val($("#userRank").val().trim());
     $("#iconPadre").attr('src', '../fproh/img/calculadora/' + $("#userRank").val().trim() + '.png');
-    $("#paisPadre").val($("#UserPais").val().trim());
+
+    if ($("#UserPais").val().trim() == 'MEX') {
+        $("#paisPadre").val('LAT');
+    }
+    else{
+        $("#paisPadre").val($("#UserPais").val().trim());
+    }
+    
     $("#iconPadrePais").attr('src', '../fproh/img/calculadora/' + $("#UserPais").val().trim() + '.png');
     $("#iconNodo1Pais").attr('src', '../fproh/img/calculadora/' + $("#UserPais").val().trim() + '.png');
     $("#iconNodo2Pais").attr('src', '../fproh/img/calculadora/' + $("#UserPais").val().trim() + '.png');

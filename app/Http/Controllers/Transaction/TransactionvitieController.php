@@ -19,11 +19,6 @@ class TransactionvitieController extends Controller
     // Inicializamos la cadena original
     private $cadena_original = '||';
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request,$user)
     {
 

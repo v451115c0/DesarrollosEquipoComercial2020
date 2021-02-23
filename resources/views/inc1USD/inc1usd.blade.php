@@ -725,6 +725,28 @@
 														</div>
 													</div>
 												</div>
+												<div class="col-xl-3 col-lg-3 col-md-6 site-content-inner mt-3">
+													<div class="card">
+														<div class="card-body">
+															<p class=""><span class="post-meta-info">Febrero</span><i class="flaticon-chart-2 float-right" style="font-size: 35px;"></i></p>
+															<h5 class="card-title mb-1">
+																<span id="cantFebrero">0</span>
+																<span class="badge badge-danger badge-pill"><i class="flaticon-circle-cross" id="chkcantFebrero"></i> <span id="txtCantFebrero">No Cumple</span></span>
+															</h5>
+														</div>
+													</div>
+												</div>
+												<div class="col-xl-3 col-lg-3 col-md-6 site-content-inner mt-3">
+													<div class="card">
+														<div class="card-body">
+															<p class=""><span class="post-meta-info">Marzo</span><i class="flaticon-chart-2 float-right" style="font-size: 35px;"></i></p>
+															<h5 class="card-title mb-1">
+																<span id="cantMarzo">0</span>
+																<span class="badge badge-danger badge-pill"><i class="flaticon-circle-cross" id="chkcantMarzo"></i> <span id="txtCantMarzo">No Cumple</span></span>
+															</h5>
+														</div>
+													</div>
+												</div>
 
 												<div class="col-lg-12 col-md-12 col-sm-12 col-12 text-center mt-3">
 													<h3>Mis volúmenes</h3>
@@ -769,6 +791,28 @@
 															<h5 class="card-title mb-1">
 																VP: <span id="cantEneroVP">0</span>
 																<span class="badge badge-danger badge-pill"><i class="flaticon-circle-cross" id="chkcantEneroVP"></i> <span id="txtCantEneroVP">No Cumple</span></span>
+															</h5>
+														</div>
+													</div>
+												</div>
+												<div class="col-xl-3 col-lg-3 col-md-6 site-content-inner mt-3">
+													<div class="card mt-2">
+														<div class="card-body">
+															<p class=""><span class="post-meta-info">VP Febrero </span><i class="flaticon-chart-2 float-right" style="font-size: 35px;"></i></p>
+															<h5 class="card-title mb-1">
+																VP: <span id="cantFebreroVP">0</span>
+																<span class="badge badge-danger badge-pill"><i class="flaticon-circle-cross" id="chkcantFebreroVP"></i> <span id="txtCantFebreroVP">No Cumple</span></span>
+															</h5>
+														</div>
+													</div>
+												</div>
+												<div class="col-xl-3 col-lg-3 col-md-6 site-content-inner mt-3">
+													<div class="card mt-2">
+														<div class="card-body">
+															<p class=""><span class="post-meta-info">VP Marzo</span><i class="flaticon-chart-2 float-right" style="font-size: 35px;"></i></p>
+															<h5 class="card-title mb-1">
+																VP: <span id="cantMarzoVP">0</span>
+																<span class="badge badge-danger badge-pill"><i class="flaticon-circle-cross" id="chkcantMarzoVP"></i> <span id="txtCantMarzoVP">No Cumple</span></span>
 															</h5>
 														</div>
 													</div>

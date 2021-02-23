@@ -1,4 +1,4 @@
-var meses = {'202001': 'Enero 2020', '202002': 'Febrero 2020', '202003': 'Marzo 2020', '202004': 'Abril 2020', '202005': 'Mayo 2020', '202006': 'Junio 2020', '202007': 'Julio 2020', '202008': 'Agosto 2020', '202009': 'Septiembre', '202010': 'Octubre 2020', '202011': 'Noviembre 2020', '202012': 'Diciembre 2020'};
+var meses = {'202101': 'Enero 2021', '202102': 'Febrero 2021', '202103': 'Marzo 2021', '202104': 'Abril 2021', '202105': 'Mayo 2021', '202106': 'Junio 2021', '202107': 'Julio 2021', '202108': 'Agosto 2021', '202109': 'Septiembre', '202110': 'Octubre 2021', '202111': 'Noviembre 2021', '202112': 'Diciembre 2021'};
 
 function number_format(number, decimals, dec_point, thousands_point) {
     if (number == null || !isFinite(number)) {
@@ -44,6 +44,7 @@ $("#mainPts").dataTable({
     ordering: false,
     info: false,
     destroy: true,
+    paging: false,
     ajax: '/vpGetMonts?associateid=' + $("#associateid").val(),
     dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5 mb-md-0 mb-5"i><"col-md-7"p>>> >',
     buttons: {
@@ -148,7 +149,7 @@ var flag = {'PER': 'peru.png', 'MEX': 'mexico.png', 'LAT': 'mexico.png', 'COL': 
 var mainCode = $("#associateid").val();
 $("#rankingTab").dataTable({
     lengthChange: false,
-    ordering: false,
+    ordering: true,
     info: false,
     destroy: true,
     ajax: "/vpGetRank",

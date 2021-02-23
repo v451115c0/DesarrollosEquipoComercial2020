@@ -60,7 +60,7 @@
                                     <div class="col-xl-12 col-md-12 col-sm-12 col-12 text-center mt-5">
                                         
                                         <h2 id="nombreUser" class="text-purpple">{{ $abiInfo[0]->AssociateName ?? 'Nikken Latinoamérica' }}</h2>
-                                        <input type="hidden" id="UserPais" value="{{ trim($abiInfo[0]->Pais ?? 'LAT', ' ') }}">
+                                        <input type="hidden" id="UserPais" value="{{ trim($abiInfo[0]->Pais ?? 'MEX', ' ') }}">
                                         <input type="hidden" id="UserCode" value="{{ $abiInfo[0]->Associateid ?? '123456' }}">
                                         <input type="hidden" id="userRank" value="{{ $abiInfo[0]->Rango ?? 'DIR' }}">
                                     </div>

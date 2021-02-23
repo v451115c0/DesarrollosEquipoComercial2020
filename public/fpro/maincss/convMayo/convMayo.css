@@ -273,12 +273,3 @@ a {
     transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1);
     will-change: box-shadow, transform;
 }
-
-.miembros{
-    cursor: context-menu !important;
-}
-
-.ranktabheadder{
-    background-image: linear-gradient(to right, #54c8e2 0%, #02466a 100%);
-    color: #fff;
-}

@@ -229,7 +229,10 @@
 				</div>
 			</div>
 		</div>
-
+		<div class="col-xl-12 col-lg-12 col-md-12 site-content-inner mt-3 text-center bg-white">
+			<span class="flaticon-danger-line mb-3 statusprs" style="font-size: 20px; color: coral;"></span>
+			<span class="statusprs" style="color: coral;">Los nuevos registros se verán reflejados cada hora.</span> <br>
+		</div>
 		<div class="requisitos scroll-offset navHeaderWrapper mt-5">
 			<div class="container" style="background-color: #ffffff; border-radius: 25px;">
 				<div id="whyusWrapperResumenoro" class="row">
@@ -335,6 +338,10 @@
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
 						<i class="flaticon-money"></i>
 						<p>El Mentor podrá realizar todos los requisitos del Reto antes de los 12 meses y podrá iniciar un nuevo Reto.</p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>El beneficio del Seminario Diamante como premio, no es acumulable con otros retos o incentivos.</p>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
 						<i class="flaticon-money"></i>

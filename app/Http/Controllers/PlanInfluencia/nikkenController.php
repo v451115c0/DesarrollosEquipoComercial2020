@@ -802,11 +802,7 @@ class nikkenController extends Controller{
 		}
 		$abi = $request->abi;
 		$conexion = DB::connection('sqlsrv2');
-			$queryGenealogy = $conexion->select("select [Jugadores_Mi_Red].[sponsorid], [Jugadores_Mi_Red].[associateid], [Jugadores_Mi_Red].[level], [Jugadores_Mi_Red].[Name], [Jugadores_Mi_Red].[Owner], [Jugadores_Mi_Red].[e_mail], [Conteo_NKChallenge].[QTY] 
-			from [Jugadores_Mi_Red] 
-			inner join [Conteo_NKChallenge] on [Jugadores_Mi_Red].[associateid] = [Conteo_NKChallenge].[associateid] 
-			where [Conteo_NKChallenge].[QTY] < '3' 
-			and [Jugadores_Mi_Red].[Periodo] = $period and [Jugadores_Mi_Red].[Owner] = '$abi'");
+			$queryGenealogy = $conexion->select("EXEC Jugadores_Lideres $abi, $period,1;");
 		\DB::disconnect('sqlsrv2');	
 		$data = [
 			'data' => $queryGenealogy,
@@ -823,7 +819,7 @@ class nikkenController extends Controller{
 		}
 		$abi = $request->abi;
 		$conexion = DB::connection('sqlsrv2');
-			$queryGenealogy = $conexion->select("EXEC Jugadores_Lideres $abi, $period");
+			$queryGenealogy = $conexion->select("EXEC Jugadores_Lideres $abi, $period,2");
 		\DB::disconnect('sqlsrv2');
 		$data = [
 			'data' => $queryGenealogy,

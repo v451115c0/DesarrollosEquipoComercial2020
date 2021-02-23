@@ -803,4 +803,125 @@ class ReportesController extends Controller{
             });
         })->export('xls');
     }
+
+    public function avancesSerPro(Request $request){
+        $fileName='Reporte Avances Ser Pro';
+        $periodo = $request->periodo;
+        $conexion = DB::connection('sqlsrv5');
+            $consolidado = $conexion->select("SELECT numci, AssociateName, Pais, Rango AS Rango_Avance, FechaAvance, Period, FechaInicio AS FechaInicioCuestionario, FEchaFin AS FechaFinCuestionario, Contestado AS CuestionarioRepondido, ContestadoFinal AS CuestionarioFinal FROM Rangos_Avance_SerPro");
+            $update = $conexion->select("SELECT TOP 1 Last_Update FROM Historico_Ejecucion WHERE programa='Retos_Especiales' ORDER BY Last_Update DESC");
+            if(sizeof($update) <= 0){
+                $update[0]['Last_Update'] = Date('Y-m-d h:m:s');
+            }
+        \DB::disconnect('sqlsrv5');
+        
+        \Excel::create($fileName, function($excel) use ($consolidado, $update) {
+            $excel->sheet('Avances', function($sheet) use ($consolidado, $update) {
+                $sheet->mergeCells('A1:J1');
+
+                $sheet->cell('A1', function($cell) use ($update){
+                    $cell->setValue("Reporte Avances Ser Pro | Fecha de actualización: " . $update[0]->Last_Update);
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                    $cell->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '15',
+                    ));
+                });
+
+                $sheet->cell('A3', function($cell){
+                    $cell->setValue('Código Influencer');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('B3', function($cell){
+                    $cell->setValue('Nombre de Influencer');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('C3', function($cell){
+                    $cell->setValue('País');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('D3', function($cell){
+                    $cell->setValue('Rango de Avance');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('E3', function($cell){
+                    $cell->setValue('Fecha de avance');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('F3', function($cell){
+                    $cell->setValue('Periodo de avance');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('G3', function($cell){
+                    $cell->setValue('Primer Cuestionario respondido');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('H3', function($cell){
+                    $cell->setValue('Segundo Cuestionario respondido');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                // Mostramos los registros
+                foreach ($consolidado as $idx => $row){
+                    $idx = ($idx  + 4);
+                    $sheet->cell('A'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->numci);
+                    });
+
+                    $sheet->cell('B'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->AssociateName);
+                    });
+                    
+                    $sheet->cell('C'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pais);
+                    });
+                    
+                    $rangosCompletos = [1 => 'DIRECTO', 3 => 'EJECUTIVO', 5 => 'PLATA', 6 => 'ORO', 7 => 'PLATINO', 8 => 'DIAMANTE', 9 => 'DIAMANTE REAL'];
+                    $sheet->cell('D'.$idx, function($cell) use ($row, $rangosCompletos) {
+                        $cell->setValue($rangosCompletos[$row->Rango_Avance]);
+                    });
+                    
+                    $sheet->cell('E'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->FechaAvance);
+                    });
+                    
+                    $sheet->cell('F'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Period);
+                    });
+
+                    $text = 'NO';
+                    if($row->CuestionarioRepondido == 1){
+                        $text = 'SI';
+                    }
+                    $sheet->cell('G'.$idx, function($cell) use ($text) {
+                        $cell->setValue($text);
+                    });
+
+                    $text2 = 'NO';
+                    if($row->CuestionarioFinal == 1){
+                        $text2 = 'SI';
+                    }
+                    $sheet->cell('H'.$idx, function($cell) use ($text2) {
+                        $cell->setValue($text2);
+                    });
+                }
+            });
+        })->export('xls');
+    }
 }

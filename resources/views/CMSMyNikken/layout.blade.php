@@ -19,6 +19,8 @@
 
     <link rel="stylesheet" href="{{ asset('fpro/css/dropify/demo.css') }}">
     <link rel="stylesheet" href="{{ asset('fpro/css/dropify/dropify.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('fproh/plugins/sweetalerts/sweetalert2.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('fproh/plugins/sweetalerts/sweetalert.css') }}"/>
 
     <link rel="stylesheet" href="{{ asset('fpro/maincss/cmsmynikken/cmsmynikken.css') }}">
 </head>
@@ -265,9 +267,9 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu">
+                    <li class="menu" hidden>
                         <!--<a href="#depuraciones" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">-->
-                        <a href="{{ url('/cmsmynikken/depuraciones') }}" class="dropdown-toggle">
+                        <a href="{{ url('/cmsmynikken/depuraciones') }}" class="dropdown-toggle" hidden>
                             <div class="">
                                 <i class="flaticon-delete"></i>
                                 <span>Depuraciones</span>
@@ -400,7 +402,7 @@
     <script src="{{ asset('fpro/mainjs/cmsmynikken/cmsmynikken.js') }}"></script>
     <script src="{{ asset('fpro/js/dropify/dropify.js') }}"></script>
     <script src="{{ asset('fpro/js/custom.js') }}"></script>
-
+	<script src="{{ asset('fproh/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             App.init();

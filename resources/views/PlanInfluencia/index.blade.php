@@ -65,7 +65,7 @@
                     <select class="form-control" id="mis_jugadores" onchange="getJugadores(this.value)">
                         <option value="-" selected disabled>Selecciona...</option>
                         <option value="1">Jugadores de mi grupo personal</option>
-                        <option value="2">Lideres de mi red</option>
+                        <option value="2">Genealogía Organizacional</option>
                     </select>
                 </div>
             </div>
@@ -332,6 +332,7 @@
                                 <th style="color: #000">Nivel </th>
                                 <th style="color: #000">Cantidad</th>
                                 <th style="color: #000">Correo</th>
+                                <th style="color: #000">KinYa!</th>
                             </tr>
                         </thead>
                     </table>
@@ -347,7 +348,7 @@
         <div class="modal-dialog modal-notify modal-danger modal-lg" role="document">
             <div class="modal-content" >
                 <div class="modal-header d-flex justify-content-center" style="background-image: linear-gradient(to right, #00a5e0 0%, #484791 100%) !important;">
-                    <h4 class="heading simulator playersModal" id="myModalLabel">LIDERES DE MI RED</h4>
+                    <h4 class="heading simulator playersModal" id="myModalLabel">JUGADORES DE MI ORGANIZACIONAL</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -362,6 +363,7 @@
                                 <th style="color: #000">Nivel </th>
                                 <th style="color: #000">Cantidad</th>
                                 <th style="color: #000">Correo</th>
+                                <th style="color: #000">KinYa!</th>
                             </tr>
                         </thead>
                     </table>

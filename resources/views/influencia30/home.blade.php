@@ -20,7 +20,7 @@
     <div class="form-group col-md-1"></div>
     <div class="col-xl-10 col-lg-10 col-sm-12 layout-spacing ">
         <div class="statbox widget box box-shadow">
-            <div class="widget-header">
+            <div class="widget-header" hidden>
                 <div class="row">
                     <div class="col-xl-12 col-md-12 col-sm-12 col-12 text-center mt-2">
                         <button type="button" class="btn btn-primary btn-rounded  mb-4 mr-2" hidden id="step2" data-toggle="modal" data-target=".bd-example-modal-xl">spet 2</button>
