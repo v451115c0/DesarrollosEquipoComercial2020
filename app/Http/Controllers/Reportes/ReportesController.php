@@ -924,4 +924,436 @@ class ReportesController extends Controller{
             });
         })->export('xls');
     }
+
+    public function reportCuestionarioPlatas(Request $request){
+        $fileName='Ser Pro - Cuestionarios PLATA';
+        $periodo = $request->periodo;
+        $conexion = DB::connection('sqlsrv5');
+            $consolidado = $conexion->select("SELECT Associateid, AssociateName, Mentor, Avance_Rango, Pregunta1, Pregunta2, Pregunta3, Pregunta4, Pregunta5, Pregunta6, Pregunta7, Pregunta8, Pregunta9_1, Pregunta9_2, FechaRegistro, Aprobacion, Pais FROM Cuestionario_PLA");
+            $update = $conexion->select("SELECT TOP 1 Last_Update FROM Historico_Ejecucion WHERE programa='Retos_Especiales' ORDER BY Last_Update DESC");
+            if(sizeof($update) <= 0){
+                $update[0]['Last_Update'] = Date('Y-m-d h:m:s');
+            }
+        \DB::disconnect('sqlsrv5');
+        
+        \Excel::create($fileName, function($excel) use ($consolidado, $update) {
+            $excel->sheet('PLATAS', function($sheet) use ($consolidado, $update) {
+                $sheet->mergeCells('A1:Q1');
+
+                $sheet->cell('A1', function($cell) use ($update){
+                    $cell->setValue("Ser Pro - Cuestionarios PLATA | Fecha de actualización: " . $update[0]->Last_Update);
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                    $cell->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '15',
+                    ));
+                });
+
+                $sheet->cell('A3', function($cell){
+                    $cell->setValue('Código Influencer');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('B3', function($cell){
+                    $cell->setValue('Nombre de Influencer');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('C3', function($cell){
+                    $cell->setValue('Código del Mentor');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('D3', function($cell){
+                    $cell->setValue('Rango de avance');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('E3', function($cell){
+                    $cell->setValue('Pregunta 1');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('F3', function($cell){
+                    $cell->setValue('Pregunta 2');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('G3', function($cell){
+                    $cell->setValue('Pregunta 3');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('H3', function($cell){
+                    $cell->setValue('Pregunta 4');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('I3', function($cell){
+                    $cell->setValue('Pregunta 5');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('J3', function($cell){
+                    $cell->setValue('Pregunta 6');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('K3', function($cell){
+                    $cell->setValue('Pregunta 7');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('L3', function($cell){
+                    $cell->setValue('Pregunta 8');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('M3', function($cell){
+                    $cell->setValue('Pregunta 9_1');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('N3', function($cell){
+                    $cell->setValue('Pregunta 9_2');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('O3', function($cell){
+                    $cell->setValue('Fecha de registro');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('P3', function($cell){
+                    $cell->setValue('Aprobación');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('Q3', function($cell){
+                    $cell->setValue('País');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                // Mostramos los registros
+                foreach ($consolidado as $idx => $row){
+                    $idx = ($idx  + 4);
+                    $sheet->cell('A'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Associateid);
+                    });
+
+                    $sheet->cell('B'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->AssociateName);
+                    });
+                    
+                    $sheet->cell('C'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Mentor);
+                    });
+                    
+                    $avance = "PLATA";
+                    if($row->Avance_Rango == 6){
+                        $avance = "ORO";
+                    }
+                    $sheet->cell('D'.$idx, function($cell) use ($avance) {
+                        $cell->setValue($avance);
+                    });
+                    
+                    $sheet->cell('E'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pregunta1);
+                    });
+                    
+                    $sheet->cell('F'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta2 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('G'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta3 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('H'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta4 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('I'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta5 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('J'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta6 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('K'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta7 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('L'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pregunta8);
+                    });
+                    
+                    $sheet->cell('M'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pregunta9_1);
+                    });
+                    
+                    $sheet->cell('N'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pregunta9_2);
+                    });
+                    
+                    $sheet->cell('O'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->FechaRegistro);
+                    });
+                    
+                    $sheet->cell('P'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Aprobacion == 1) ? "SI": "NO");
+                    });
+                    
+                    $sheet->cell('Q'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pais);
+                    });
+                }
+            });
+        })->export('xls');
+    }
+
+    public function reportCuestionarioOros(Request $request){
+        $fileName='Ser Pro - Cuestionarios ORO';
+        $periodo = $request->periodo;
+        $conexion = DB::connection('sqlsrv5');
+            $consolidado = $conexion->select("SELECT Associateid,AssociateName, Mentor,Avance_Rango, Pregunta1,Pregunta2,Pregunta3,Pregunta4,Pregunta5,Pregunta6,Pregunta7,Pregunta8,Pregunta9,Pregunta10_1,Pregunta10_2,Pregunta10_3,FechaRegistro,Aprobacion,Pais FROM Cuestionario_ORO");
+            $update = $conexion->select("SELECT TOP 1 Last_Update FROM Historico_Ejecucion WHERE programa='Retos_Especiales' ORDER BY Last_Update DESC");
+            if(sizeof($update) <= 0){
+                $update[0]['Last_Update'] = Date('Y-m-d h:m:s');
+            }
+        \DB::disconnect('sqlsrv5');
+        
+        \Excel::create($fileName, function($excel) use ($consolidado, $update) {
+            $excel->sheet('ORO', function($sheet) use ($consolidado, $update) {
+                $sheet->mergeCells('A1:Q1');
+
+                $sheet->cell('A1', function($cell) use ($update){
+                    $cell->setValue("Ser Pro - Cuestionarios ORO | Fecha de actualización: " . $update[0]->Last_Update);
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                    $cell->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '15',
+                    ));
+                });
+
+                $sheet->cell('A3', function($cell){
+                    $cell->setValue('Código Influencer');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('B3', function($cell){
+                    $cell->setValue('Nombre de Influencer');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('C3', function($cell){
+                    $cell->setValue('Código del Mentor');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('D3', function($cell){
+                    $cell->setValue('Rango de avance');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('E3', function($cell){
+                    $cell->setValue('Pregunta 1');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('F3', function($cell){
+                    $cell->setValue('Pregunta 2');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('G3', function($cell){
+                    $cell->setValue('Pregunta 3');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('H3', function($cell){
+                    $cell->setValue('Pregunta 4');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('I3', function($cell){
+                    $cell->setValue('Pregunta 5');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('J3', function($cell){
+                    $cell->setValue('Pregunta 6');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('K3', function($cell){
+                    $cell->setValue('Pregunta 7');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('L3', function($cell){
+                    $cell->setValue('Pregunta 8');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('M3', function($cell){
+                    $cell->setValue('Pregunta 9');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('N3', function($cell){
+                    $cell->setValue('Pregunta 10_1');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('O3', function($cell){
+                    $cell->setValue('Pregunta 10_2');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('P3', function($cell){
+                    $cell->setValue('Pregunta 10_3');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('Q3', function($cell){
+                    $cell->setValue('Fecha de registro');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('R3', function($cell){
+                    $cell->setValue('Aprobación');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('S3', function($cell){
+                    $cell->setValue('País');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                // Mostramos los registros
+                foreach ($consolidado as $idx => $row){
+                    $idx = ($idx  + 4);
+                    $sheet->cell('A'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Associateid);
+                    });
+
+                    $sheet->cell('B'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->AssociateName);
+                    });
+                    
+                    $sheet->cell('C'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Mentor);
+                    });
+                    
+                    $avance = "PLATA";
+                    if($row->Avance_Rango == 6){
+                        $avance = "ORO";
+                    }
+                    $sheet->cell('D'.$idx, function($cell) use ($avance) {
+                        $cell->setValue($avance);
+                    });
+                    
+                    $sheet->cell('E'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pregunta1);
+                    });
+                    
+                    $sheet->cell('F'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta2 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('G'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta3 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('H'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta4 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('I'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta5 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('J'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta6 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('K'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta7 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('L'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Pregunta8 == 1) ? "SI" : 'NO');
+                    });
+                    
+                    $sheet->cell('M'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pregunta9);
+                    });
+                    
+                    $sheet->cell('N'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pregunta10_1);
+                    });
+                    
+                    $sheet->cell('N'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pregunta10_2);
+                    });
+                    
+                    $sheet->cell('N'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pregunta10_3);
+                    });
+                    
+                    $sheet->cell('O'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->FechaRegistro);
+                    });
+                    
+                    $sheet->cell('P'.$idx, function($cell) use ($row) {
+                        $cell->setValue(($row->Aprobacion == 1) ? "SI": "NO");
+                    });
+                    
+                    $sheet->cell('Q'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pais);
+                    });
+                }
+            });
+        })->export('xls');
+    }
 }

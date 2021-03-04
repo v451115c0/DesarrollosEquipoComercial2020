@@ -148,7 +148,8 @@ Route::get('calcGetProductsInfluencia', 'CalculadoraNK\CalculadoraNkController@c
 Route::post('/services_iw','services_iw\S3Controller@store');
 
 /*=== kits a 1USD ===*/
-Route::get('inc1USD/{associateid}', 'inc1USD\inc1USDController@inc1USD');
+Route::get('inc1USD/{associateid}', 'inc1USD\inc1USDController@inc1USD_');
+Route::get('inc1USD_/{associateid}', 'inc1USD\inc1USDController@inc1USD_');
 Route::get('inc1USDGetDetails', 'inc1USD\inc1USDController@inc1USDGetDetails');
 Route::get('inc1USDGettickets', 'inc1USD\inc1USDController@inc1USDGettickets');
 Route::get('inc1USDGetGenealogy', 'inc1USD\inc1USDController@inc1USDGetGenealogy');
@@ -160,7 +161,9 @@ Route::get('getCountKits', 'inc1USD\inc1USDController@getCountKits');
 Route::get('getuser_promotion_kit', 'inc1USD\inc1USDController@getuser_promotion_kit');
 Route::get('reporteMKTInc1USDInicioPerf', 'inc1USD\inc1USDController@reporteMKTInc1USDInicioPerf');
 Route::post('inc1USDValidaTicket', 'inc1USD\inc1USDController@inc1USDValidaTicket');
-Route::get('cronOVAutologin', 'Retos\kaizenController@cronOVAutologin');
+Route::get('inc1USDGetGenealogyMkPlus', 'inc1USD\inc1USDController@inc1USDGetGenealogyMkPlus');
+Route::get('inc1USDGetticketsIncorp', 'inc1USD\inc1USDController@inc1USDGetticketsIncorp');
+Route::get('inc1USDGetticketsVenta', 'inc1USD\inc1USDController@inc1USDGetticketsVenta');
 
 /*=== NA MyNikkne Convention ===*/
 Route::get('getTicketsNAConvention', 'ViajerosPro\ViajerosProController@getTicketsNAConvention');
@@ -190,6 +193,8 @@ Route::get('reportemokutekiResumen', 'Reportes\ReportesController@reportemokutek
 Route::get('Incorporacion_Frontal', 'Reportes\ReportesController@Incorporacion_Frontal'); // Incorporacion_Frontal MyNIKKEN
 Route::get('Grupo_Frontalidad', 'Reportes\ReportesController@Grupo_Frontalidad'); // Grupo_Frontalidad MyNIKKEN
 Route::get('avancesSerPro', 'Reportes\ReportesController@avancesSerPro'); // reporte de avances SER PRO
+Route::get('reportCuestionarioPlatas', 'Reportes\ReportesController@reportCuestionarioPlatas'); // reporte de cuestionarios PLATAS
+Route::get('reportCuestionarioOros', 'Reportes\ReportesController@reportCuestionarioOros'); // reporte de cuestionarios OROS
 
 /*=== CMS Nikkenlatam ===*/
 Route::get('cmsmynikken/addNotify', 'CMSMyNikken\CMSMyNikkenController@index');
@@ -217,6 +222,8 @@ Route::get('cmsSendMailsSerPro', 'CMSMyNikken\CMSMyNikkenController@cmsSendMails
 Route::get('serProAvanceMailView', 'CMSMyNikken\CMSMyNikkenController@serProAvanceMailView');
 Route::get('cmschangeCountryCICB', 'CMSMyNikken\CMSMyNikkenController@cmschangeCountryCICB');
 Route::get('cmsGetVentasClientes', 'CMSMyNikken\CMSMyNikkenController@cmsGetVentasClientes');
+Route::get('cmsDepuradosActivos', 'CMSMyNikken\CMSMyNikkenController@cmsDepuradosActivos');
+Route::get('cmsDepurarActivos', 'CMSMyNikken\CMSMyNikkenController@cmsDepurarActivos');
 
 /*=== retos especiales 2021 ===*/
 Route::get('retosEspeciales2021/{associateid}', 'ViajerosPro\ViajerosProController@menuRetos');

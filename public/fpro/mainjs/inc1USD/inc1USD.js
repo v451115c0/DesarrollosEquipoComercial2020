@@ -99,6 +99,210 @@ function getTicket(){
             "search": "Buscar",
         }
     });
+    getCountKits();
+    inc1USDGetticketsIncorp();
+    inc1USDGetticketsVenta();
+}
+
+function inc1USDGetticketsIncorp(){
+    $('#summaryTicketsInc').DataTable({
+        destroy: true,
+        lengthChange: false,
+        ordering: false,
+        info: false,
+        ajax: '/inc1USDGetticketsIncorp?associateid=' + $("#associateid").val(),
+        columns: [
+            { data: 'CodigoBoleto', className: 'text-center' },
+            { data: 'Influencer', className: 'text-center' },
+            { data: 'Fecha_Influencer', className: 'text-center' },
+            { data: 'AssociateName', className: 'text-center' },
+            {
+                data: 'Pais',
+                className: 'text-center',
+                render: function(data, type, row){
+                    var pais = row.Pais;
+                    if(pais == 'LAT'){
+                        pais = 'MEX';
+                    }
+                    var dato = "<img src='../fpro/img/flags/" + flags[row.Pais] + "' width='15px'> <br>" + row.Pais; 
+                    return dato;
+                }
+            },
+            {
+                data: 'AssociateName',
+                className: 'text-center',
+                "render": function(data, type, row){
+                    var href = "javascript:void(0);";
+                    var text = "Redimir Kit";
+                    var attrLink = "";
+                    var attrButton = "";
+                    var btn_class = "btn-success";
+
+                    if(row.status == 2){
+                        text = "Incorporación pendiente";
+                        attrButton = "disabled='true'";
+                        href = "javascript:void(0);";
+                        attrLink = "";
+                        btn_class = "btn-dark";
+                    }
+                    else if(row.status == 1){
+                        text = "Kit redimido";
+                        attrButton = "disabled='true'";
+                        href = "javascript:void(0);";
+                        attrLink = "";
+                        btn_class = "btn-dark";
+                    }
+                    else if(row.status == 0){
+                        text = "Redimir Kit";
+                        attrLink = 'target="_new"';
+                    }
+
+                    if(row.existe == 1){
+                        return '<button class="btn btn-outline-dark btn-rounded mb-4 mr-2">' + text + '</button>'
+                    }
+                    else{
+                        return '<div class="btn-group dropup ">' +
+                                    '<button id="' + row.CodigoBoleto.trim() + '-Button" class="chlBtn btn btn-success dropdown-toggle br-left-30 br-right-30 ' + btn_class + '" ' + attrButton + ' type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="validaExistencia(\'' + row.CodigoBoleto.trim() + '\')">' + text + '</button>' +
+                                    '<div class="dropdown-menu text-center">' +
+                                        '<a href="javascript:void(0);" class="dropdown-item text-black"><b><span id="logBTN">Elegir País</span></b></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="COL">Colombia &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['COL'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/mexico/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) +'" class="dropdown-item" id="LAT">México &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['LAT'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/peru/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="PER">Perú &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['PER'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="ECU">Ecuador &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['ECU'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="PAN">Panamá &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['PAN'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="GTM">Guatemala &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['GTM'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="SLV">El Salvador &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['SLV'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/costarica/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="CRI">Costa Rica &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['CRI'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://signup.nikkenlatam.com:8989/profile/ch/spa/kitoneusd/' + window.btoa(row.SponsorId.trim()) + "/" + window.btoa(5002) + "/" + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="CHL">Chile &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['CHL'] + '" width="20px"></a>' +
+                                    '</div>' +
+                                '</div>';
+                    }
+                }
+            },
+            {
+                data: 'status',
+                className: 'text-center',
+                render: function(data, type, row){
+                    if(row.payment == 0 && row.status == 2){
+                        return "<span id='" + row.CodigoBoleto.trim() + "-colStatus'>Pago pendiente</span>";
+                    }
+                    if(row.payment >= 1 && row.status == 1){
+                        return "<span id='" + row.CodigoBoleto.trim() + "-colStatus'>Kit redimido</span>";
+                    }
+                    else{
+                        return "<span id='" + row.CodigoBoleto.trim() + "-colStatus'>kit disponible</span>";
+                    }
+                }
+            },
+        ],
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json",
+            "paginate": { "previous": "<i class='flaticon-arrow-left-1'></i>", "next": "<i class='flaticon-arrow-right'></i>" },
+            "info": "La tabla se recargara cada 05:00 minutos.",
+            "search": "Buscar",
+        }
+    });
+    getCountKits()
+}
+
+function inc1USDGetticketsVenta(){
+    $('#summaryTicketsSale').DataTable({
+        destroy: true,
+        lengthChange: false,
+        ordering: false,
+        info: false,
+        ajax: '/inc1USDGetticketsVenta?associateid=' + $("#associateid").val(),
+        columns: [
+            { data: 'CodigoBoleto', className: 'text-center' },
+            { data: 'Influencer', className: 'text-center' },
+            { data: 'Fecha_Influencer', className: 'text-center' },
+            { data: 'AssociateName', className: 'text-center' },
+            {
+                data: 'Pais',
+                className: 'text-center',
+                render: function(data, type, row){
+                    var pais = row.Pais;
+                    if(pais == 'LAT'){
+                        pais = 'MEX';
+                    }
+                    var dato = "<img src='../fpro/img/flags/" + flags[row.Pais] + "' width='15px'> <br>" + row.Pais; 
+                    return dato;
+                }
+            },
+            {
+                data: 'AssociateName',
+                className: 'text-center',
+                "render": function(data, type, row){
+                    var href = "javascript:void(0);";
+                    var text = "Redimir Kit";
+                    var attrLink = "";
+                    var attrButton = "";
+                    var btn_class = "btn-success";
+
+                    if(row.status == 2){
+                        text = "Incorporación pendiente";
+                        attrButton = "disabled='true'";
+                        href = "javascript:void(0);";
+                        attrLink = "";
+                        btn_class = "btn-dark";
+                    }
+                    else if(row.status == 1){
+                        text = "Kit redimido";
+                        attrButton = "disabled='true'";
+                        href = "javascript:void(0);";
+                        attrLink = "";
+                        btn_class = "btn-dark";
+                    }
+                    else if(row.status == 0){
+                        text = "Redimir Kit";
+                        attrLink = 'target="_new"';
+                    }
+
+                    if(row.existe == 1){
+                        return '<button class="btn btn-outline-dark btn-rounded mb-4 mr-2">' + text + '</button>'
+                    }
+                    else{
+                        return '<div class="btn-group dropup ">' +
+                                    '<button id="' + row.CodigoBoleto.trim() + '-Button" class="chlBtn btn btn-success dropdown-toggle br-left-30 br-right-30 ' + btn_class + '" ' + attrButton + ' type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="validaExistencia(\'' + row.CodigoBoleto.trim() + '\')">' + text + '</button>' +
+                                    '<div class="dropdown-menu text-center">' +
+                                        '<a href="javascript:void(0);" class="dropdown-item text-black"><b><span id="logBTN">Elegir País</span></b></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="COL">Colombia &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['COL'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/mexico/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) +'" class="dropdown-item" id="LAT">México &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['LAT'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/peru/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="PER">Perú &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['PER'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="ECU">Ecuador &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['ECU'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="PAN">Panamá &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['PAN'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="GTM">Guatemala &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['GTM'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="SLV">El Salvador &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['SLV'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://iw.nikkenlatam.com:8787/costarica/login-cupon-incorporate.php?sponsorid=' + window.btoa(row.SponsorId.trim()) + '&kit=' + window.btoa(5002) + '&boleto=' + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="CRI">Costa Rica &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['CRI'] + '" width="20px"></a>' +
+                                        '<a onclick="disableButton(\'' + row.CodigoBoleto.trim() + '\')" target="_blank" href="https://signup.nikkenlatam.com:8989/profile/ch/spa/kitoneusd/' + window.btoa(row.SponsorId.trim()) + "/" + window.btoa(5002) + "/" + window.btoa(row.CodigoBoleto.trim()) + '" class="dropdown-item" id="CHL">Chile &nbsp;&nbsp;<img src="../fpro/img/flags/' + flags['CHL'] + '" width="20px"></a>' +
+                                    '</div>' +
+                                '</div>';
+                    }
+                }
+            },
+            {
+                data: 'status',
+                className: 'text-center',
+                render: function(data, type, row){
+                    if(row.payment == 0 && row.status == 2){
+                        return "<span id='" + row.CodigoBoleto.trim() + "-colStatus'>Pago pendiente</span>";
+                    }
+                    if(row.payment >= 1 && row.status == 1){
+                        return "<span id='" + row.CodigoBoleto.trim() + "-colStatus'>Kit redimido</span>";
+                    }
+                    else{
+                        return "<span id='" + row.CodigoBoleto.trim() + "-colStatus'>kit disponible</span>";
+                    }
+                }
+            },
+        ],
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json",
+            "paginate": { "previous": "<i class='flaticon-arrow-left-1'></i>", "next": "<i class='flaticon-arrow-right'></i>" },
+            "info": "La tabla se recargara cada 05:00 minutos.",
+            "search": "Buscar",
+        }
+    });
     getCountKits()
 }
 
@@ -486,8 +690,8 @@ function validaExistencia(boleto){
         },
         success: function(Res){
             if(Res > 0){
-                $("#" + boleto + "-Button").text("Kit Redimiedo");
-                $("#" + boleto + "-colStatus").text("Kit Redimiedo");
+                $("#" + boleto + "-Button").text("Kit Redimido");
+                $("#" + boleto + "-colStatus").text("Kit Redimido");
                 $("#" + boleto + '-slctPais').remove();
                 $("#" + boleto + '-Button').removeClass('btn-success');
                 $("#" + boleto + '-Button').removeClass('dropdown-toggle');
@@ -501,3 +705,48 @@ function validaExistencia(boleto){
         }
     })
 }
+
+$("#typeGen").val(1);
+function getReportMkPlus(){
+    var type = $("#typeGen").val();
+    $('#mainMkPlus').DataTable({
+        destroy: true,
+        lengthChange: false,
+        info: false,
+        ajax: '/inc1USDGetGenealogyMkPlus?associateid=' + $("#associateid").val() + '&type=' + type,
+        dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5 mb-md-0 mb-5"i><"col-md-7"p>>> >',
+        columns: [
+            { data: 'associateid', className: 'text-center' },
+            { data: 'nivel', className: 'text-center' },
+            { data: 'associateName', className: 'text-center' },
+            {
+                data: 'Pais',
+                className: 'text-center',
+                render: function(data, type, row){
+                    var dato = "<img src='../fpro/img/flags/" + flags[row.Pais] + "' width='15px'> <br>" + row.Pais; 
+                    return dato;
+                }
+            },
+            { data: 'Fecha_Incorporacion', className: 'text-center' },
+            { data: 'TotalSistemas', className: 'text-center' },
+            { data: 'Patrocinador', className: 'text-center' },
+            { data: 'Email', className: 'text-center' },
+        ],
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json",
+            "paginate": { "previous": "<i class='flaticon-arrow-left-1'></i>", "next": "<i class='flaticon-arrow-right'></i>" },
+            "info": "Showing page _PAGE_ of _PAGES_",
+            "search": "Buscar",
+        },
+        buttons: {
+            buttons: [
+                { 
+                    extend: 'excel', 
+                    className: 'btn btn-fill btn-fill-dark btn-rounded mb-4 mr-3 btnExcel', 
+                    text:"<img src='https://services.nikken.com.mx/retos/img/excel.png' width='15px'></img> Exportar a Excel",
+                },
+            ]
+        },
+    });
+}
+getReportMkPlus();

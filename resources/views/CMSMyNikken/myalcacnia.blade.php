@@ -56,7 +56,7 @@
                     </a>
                 </li>
                 <li class="bold">
-                    <a class="waves-effect waves-cyan mt-3 gradient-shadow ">
+                    <a class="waves-effect waves-cyan mt-3 gradient-shadow" href="{{ asset('materialize/img/alcancia/1.pdf') }}" target="_new">
                         <i class="material-icons">question_answer</i>
                         <span class="menu-title" data-i18n="Mail">Preguntas frecuentes</span>
                     </a>
@@ -220,6 +220,7 @@
                                     <tr>
                                         <th>Numero de orden</th>
                                         <th>Código de item</th>
+                                        <th>Descripción</th>
                                         <th>Cantidad</th>
                                         <th>Precio unitario</th>
                                         <th>Puntos</th>
@@ -238,11 +239,72 @@
 
         <div id="terms" class="modal modal-fixed-footer">
             <div class="modal-content">
-                <h4>TÉRMINOS Y CONDICIONES</h4>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur error, accusamus explicabo quaerat optio iure eius? Voluptate architecto asperiores sequi vero culpa explicabo vitae atque nemo hic. Voluptatum, corporis hic!</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur error, accusamus explicabo quaerat optio iure eius? Voluptate architecto asperiores sequi vero culpa explicabo vitae atque nemo hic. Voluptatum, corporis hic!</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur error, accusamus explicabo quaerat optio iure eius? Voluptate architecto asperiores sequi vero culpa explicabo vitae atque nemo hic. Voluptatum, corporis hic!</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur error, accusamus explicabo quaerat optio iure eius? Voluptate architecto asperiores sequi vero culpa explicabo vitae atque nemo hic. Voluptatum, corporis hic!</p>
+                <center>
+                    <h5>Términos y Condiciones (Usuario del Plan de Pago)</h5>
+                </center>
+                <p>Es un beneficio exclusivo para Influencer y Miembros de la Comunidad, en el caso de este último si no está inscrito en NIKKEN debe ingresar con el Kit de Inicio 5032 de valor de 1 dólar, el cual será cargado al valor de la primera cuota o plazo.</p>
+                <p>El envío del producto se hará al momento de pagar el 100% del pedido en los tiempos determinados en condiciones normales.</p>
+                <p>La factura, puntos, pagos de ganancias y bonificaciones se harán en el mes correspondiente al último pago del plan de pagos.</p>
+                <p>Este beneficio solamente será aplicable a la compra de productos NIKKEN (Con un costo mínimo total del plan por 150 USD o su equivalente en la moneda local).</p>
+                <table class="bordered">
+                    <tbody>
+                        <tr>
+                            <td>COLOMBIA </td>
+                            <td>$510.000</td>
+                        </tr>
+                        <tr>
+                            <td>CHILE </td>
+                            <td>$118.700</td>
+                        </tr>
+                        <tr>
+                            <td>ECUADOR </td>
+                            <td>USD$150</td>
+                        </tr>
+                        <tr>
+                            <td>PERÚ </td>
+                            <td>S/.540</td>
+                        </tr>
+                        <tr>
+                            <td>PANAMÁ </td>
+                            <td>USD$150</td>
+                        </tr>
+                        <tr>
+                            <td>COSTA RICA</td>
+                            <td>₡88.000</td>
+                        </tr>
+                        <tr>
+                            <td>EL SALVADOR</td>
+                            <td>USD$150</td>
+                        </tr>
+                        <tr>
+                            <td>GUATEMALA</td>
+                            <td>Q.1200</td>
+                        </tr>
+                        <tr>
+                            <td>MÉXICO</td>
+                            <td>$3.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Este beneficio no es válido para la compra de productos en promoción, cambios de producto, Kit de Influencer o descuentos especiales, aplica exclusivamente para precios de lista.</p>
+                <p>NIKKEN sostendrá el precio de la alcancía generada siempre y cuando sea tomada antes del anuncio al cambio de precios del país.</p>
+                <p>Para beneficiarse de este plan de pagos el Cliente deberá pagar como mínimo el primer pago correspondiente al 10% del valor total de las mercancías y un MÁXIMO de 10 PAGOS al aceptar este Plan. Este valor podrá ser pagado con cualquiera de las formas de pago que se acepten dentro de la Tienda Virtual de NIKKEN. El pago del anticipo no dará derecho al Cliente a reclamar el producto a NIKKEN, sino hasta que complete el pago del precio.</p>
+                <p>El plazo máximo para cumplir con los pagos o cuotas es de 10 meses a partir del primer pago.</p>
+                <p>NIKKEN separará o apartara el producto siempre y cuando se tenga pagado el equivalente a 6 pagos o cuotas de pago y/o el 60% del total de los productos separados y se tendrá disponible para cuando se tenga la totalidad del pago para hacer envío de los productos. Después de hacer este proceso no se aceptan cambios de referencia.</p>
+                <p>En caso de no pagar la totalidad de los plazos el producto quedará disponible para la venta.</p>
+                <p>Todo cambio o ajuste en los productos (cambio de código, backorder o producto descontinuado) adquiridos por <b>EL CLIENTE</b> en este beneficio, <b>NIKKEN</b>  notificará directamente al cliente, por lo que el <b>EL CLIENTE</b> podrá decidir si continúa con las nuevas condiciones o utiliza los anticipos efectuados en la compra de algún producto NIKKEN.</p>
+                <p>NIKKEN entregará el producto apartado al EL CLIENTE siempre y cuando verifique que aquél completó el pago del saldo restante dentro del plazo obligatorio mencionado.</p>
+                <p>
+                    Este negocio se considerará como una venta sometida a una condición resolutoria, de manera que, si EL CLIENTE no completa el pago del saldo restante dentro del término obligatorio antes establecido:
+                    <ul style="margin-left: 50px">
+                        <li style="list-style-type:   disclosure-closed !important;">NIKKEN podrá disponer libremente del producto que había sido separado para el Cliente y cesará la obligación de garantizar al Cliente su disponibilidad.</li>
+                        <li style="list-style-type:   disclosure-closed !important;">Vencido el plazo sin que el Cliente haya completado el pago, la suma entregada como anticipo se transformará en un Bono por ese mismo valor, que será redimible en productos y accesorios comercializados por NIKKEN.</li>
+                        <li style="list-style-type:   disclosure-closed !important;">NIKKEN notificará al Cliente que el Bono se encuentra a su disposición mediante el envío de cualquier mensaje al teléfono y/o dirección electrónica suministrados en su registro.</li>
+                        <li style="list-style-type:   disclosure-closed !important;">NIKKEN hará devoluciones de dinero al Cliente en caso de solicitarse por medio escrito para lo cual se tendrá en cuenta una penalidad del 10% del valor abonado a la fecha.</li>
+                        <li style="list-style-type:   disclosure-closed !important;">Dichos valores serán personales e intransferibles.</li>
+                    </ul>
+                </p>
+                <p>NIKKEN Latinoamérica y sus representaciones se reservan la interpretación de este beneficio.</p>
             </div>
             <div class="modal-footer">
                 <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
@@ -286,86 +348,88 @@
                 }
             };
 
-            $("#miestatus").DataTable({
-                responsive: !0,
-                destroy: true,
-                ajax: '/MyAlcacniaData?associateid=' + $("#sap_code").val(),
-                columns: [
-                    { data: 'AssociateName', className: 'text-center' },
-                    {
-                        data: 'VC',
-                        className: 'text-center',
-                        render: function(data, type, row){
-                            var html = '<a href="#orderDetailView" class="waves-effect waves-light modal-trigger btn cyan box-shadow-none border-round mr-1 mb-1" onclick="getDetailOrder(' + row.OrderNum + ')">detalles</a>';
-                            return html;
-                        }
-                    },
-                    {
-                        data: 'Pais', className: 'text-center',
-                        render: function(data, type, row){
-                            if(row.PlazosPendientes <= 0){
-                                return "Pagada";
-                            }
-                            else{
-                                return "Abierta";
-                            }
-                        }
-                    },
-                    { data: 'FechaPrimerPago', className: 'text-center' },
-                    { data: 'OrderNum', className: 'text-center' },
-                    { data: 'NumPlazos', className: 'text-center' },
-                    { data: 'PlazosPagados', className: 'text-center' },
-                    { data: 'PlazosPendientes', className: 'text-center' },
-                    {
-                        data: 'ValorTotal',
-                        className: 'text-center',
-                        render: function(data, type, row){
-                            return formatMoney(row.ValorTotal);
-                        }
-                    },
-                    {
-                        data: 'ValorAbonos',
-                        className: 'text-center',
-                        render: function(data, type, row){
-                            return formatMoney(row.ValorAbonos);
-                        }
-                    },
-                    {
-                        data: 'ValorSaldo',
-                        className: 'text-center',
-                        render: function(data, type, row){
-                            return formatMoney(row.ValorSaldo);
-                        }
-                    },
-                    { data: 'Puntos', className: 'text-center' },
-                    { data: 'VC', className: 'text-center' },
-                ],
-                dom: '<"row"<"col s12 m12 l12 xl12"<"row"<"col s12 m12 l6 xl6"B><"col s12 m12 l6 xl6"f> > ><"m12"rt> <"m12"<"row"<"m5 mb-md-0 mb-5"i><"m7"p>>> >',
-                buttons: {
-                    buttons: [
+            function miestatus(){
+                $("#miestatus").DataTable({
+                    responsive: !0,
+                    destroy: true,
+                    ajax: '/MyAlcacniaData?associateid=' + $("#sap_code").val(),
+                    columns: [
+                        { data: 'AssociateName', className: 'text-center' },
                         {
-                            extend: 'excel', 
-                            className: 'waves-effect waves-light  btn gradient-45deg-light-blue-cyan box-shadow-none border-round mr-1 mb-1 mt-2', 
-                            text:"<img src='https://services.nikken.com.mx/retos/img/excel.png' width='15px'></img> Exportar a Excel",
+                            data: 'VC',
+                            className: 'text-center',
+                            render: function(data, type, row){
+                                var html = '<a href="#orderDetailView" class="waves-effect waves-light modal-trigger btn cyan box-shadow-none border-round mr-1 mb-1" onclick="getDetailOrder(' + row.OrderNum + ')">detalles</a>';
+                                return html;
+                            }
                         },
-                    ]
-                },
-                language: {
-                    "paginate": {
-                        "previous": "Anterior",
-                        "next": "Siguiente"
+                        {
+                            data: 'Pais', className: 'text-center',
+                            render: function(data, type, row){
+                                if(row.PlazosPendientes <= 0){
+                                    return "Pagada";
+                                }
+                                else{
+                                    return "Abierta";
+                                }
+                            }
+                        },
+                        { data: 'FechaPrimerPago', className: 'text-center' },
+                        { data: 'OrderNum', className: 'text-center' },
+                        { data: 'NumPlazos', className: 'text-center' },
+                        { data: 'PlazosPagados', className: 'text-center' },
+                        { data: 'PlazosPendientes', className: 'text-center' },
+                        {
+                            data: 'ValorTotal',
+                            className: 'text-center',
+                            render: function(data, type, row){
+                                return formatMoney(row.ValorTotal);
+                            }
+                        },
+                        {
+                            data: 'ValorAbonos',
+                            className: 'text-center',
+                            render: function(data, type, row){
+                                return formatMoney(row.ValorAbonos);
+                            }
+                        },
+                        {
+                            data: 'ValorSaldo',
+                            className: 'text-center',
+                            render: function(data, type, row){
+                                return formatMoney(row.ValorSaldo);
+                            }
+                        },
+                        { data: 'Puntos', className: 'text-center' },
+                        { data: 'VC', className: 'text-center' },
+                    ],
+                    dom: '<"row"<"col s12 m12 l12 xl12"<"row"<"col s12 m12 l6 xl6"B><"col s12 m12 l6 xl6"f> > ><"m12"rt> <"m12"<"row"<"m5 mb-md-0 mb-5"i><"m7"p>>> >',
+                    buttons: {
+                        buttons: [
+                            {
+                                extend: 'excel', 
+                                className: 'waves-effect waves-light  btn gradient-45deg-light-blue-cyan box-shadow-none border-round mr-1 mb-1 mt-2', 
+                                text:"<img src='https://services.nikken.com.mx/retos/img/excel.png' width='15px'></img> Exportar a Excel",
+                            },
+                        ]
                     },
-                    "search": "Buscar" ,
-                    "searchPlaceholder": "Buscar...",
-                    "info": "&nbsp;&nbsp;&nbsp; Mostrando _START_ a _END_ de _TOTAL_ registros",
-                    "loadingRecords": '<center><div class="box">Cargando registros...</div></center>',
-                    'sEmptyTable': 'No se encontraron registros',
-                    "sZeroRecords": "No se encontraron coincidencias",
-                    "sInfoEmpty": "",
-                }
-            });
+                    language: {
+                        "paginate": {
+                            "previous": "Anterior",
+                            "next": "Siguiente"
+                        },
+                        "search": "Buscar" ,
+                        "searchPlaceholder": "Buscar...",
+                        "info": "&nbsp;&nbsp;&nbsp; Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "loadingRecords": '<center><div class="box">Cargando registros...</div></center>',
+                        'sEmptyTable': 'No se encontraron registros',
+                        "sZeroRecords": "No se encontraron coincidencias",
+                        "sInfoEmpty": "",
+                    }
+                });
+            }
+            miestatus();
 
-            MyAlcacniaDataRed(1);
             $("#genealogyPerTipe").val(1);
             function MyAlcacniaDataRed(type){
                 $("#estatusRed").DataTable({
@@ -458,6 +522,7 @@
                     columns: [
                         { data: 'DocSale', className: 'text-center' },
                         { data: 'ItemCode', className: 'text-center' },
+                        { data: 'ItemName', className: 'text-center' },
                         { data: 'Quantity', className: 'text-center' },
                         {
                             data: 'UnitPrice',
@@ -515,6 +580,8 @@
                 $("#myAlcacnciaRedbtn").parent().removeClass('active');
                 $("#myAlcacnciabtn").addClass('active');
                 $("#myAlcacnciabtn").parent().addClass('active');
+
+                miestatus();
             }
 
             function showMyAlcanciaRed(){
@@ -524,18 +591,18 @@
                 $("#myAlcacnciabtn").parent().removeClass('active');
                 $("#myAlcacnciaRedbtn").addClass('active');
                 $("#myAlcacnciaRedbtn").parent().addClass('active');
+
+                MyAlcacniaDataRed(1);
             }
+        </script>
+        <script type="text/javascript">
+            window._mfq = window._mfq || [];
+            (function() {
+              var mf = document.createElement("script");
+              mf.type = "text/javascript"; mf.defer = true;
+              mf.src = "//cdn.mouseflow.com/projects/ff111b2f-eb0a-4c46-9ff8-86162a2fcf39.js";
+              document.getElementsByTagName("head")[0].appendChild(mf);
+            })();
         </script>
     </body>
 </html>
-<script>
-    /*
-    obtener todos los describe de las tablas que utiliza cesar 
-    y la logica de sincronización de las tablas
-
-    4 - 5 méx 
-    5 - 6 col
-
-    20415082400128
-    */
-</script>

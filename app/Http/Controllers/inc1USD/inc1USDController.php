@@ -65,6 +65,63 @@ class inc1USDController extends Controller{
         return view('inc1USD.inc1USD',  compact('associateid', 'fechaUpdate', 'abiInfo', 'asesor', 'flag'));
     }
 
+    public function inc1USD_(Request $request){
+        $associateid = $request->associateid;
+        if(!is_numeric($associateid)){
+            $associateid = base64_decode($associateid);
+        }
+        $periodo = Date('Ym');
+
+        $conexion5 = DB::connection('sqlsrv5');
+            $abiInfo = $conexion5->table('EstrategiaOct')
+            ->select('AssociateName', 'Pais', 'Rango', 'Total_Incorpor')
+            ->where('Associateid', '=', $associateid)
+            ->where('Periodo', '=', $periodo)
+            ->get();
+
+            if(sizeof($abiInfo) < 0){
+                $abiInfo = $conexion5->table('Puntos2020')
+                ->select('AssociateName', 'Rango', 'Pais', '0 AS Total_Incorpor')
+                ->where('Associateid', $associateid)
+                ->where('Periodo', '=', $periodo)
+                ->get();
+            }
+
+            $lastUpdate = $conexion5->table('Historico_Ejecucion')
+            ->select('Last_Update')
+            ->where('Programa', '=', 'Estrategia_Octubre')
+            ->orderBy('Last_Update', 'desc')
+            ->first();
+
+            $asesor = $conexion5->table('Estatus_InicoPerfect')->select('Associateid')->where('Associateid', '=', $associateid)->get();
+        \DB::disconnect('sqlsrv5');
+        
+        $flag = ['PER' => 'peru.png', 'LAT' => 'mexico.png', 'MEX' => 'mexico.png', 'COL' => 'colombia.png', 'CHL' => 'chile.png', 'ECU' => 'ecuador.png', 'PAN' => 'panama.png', 'SLV' => 'salvador.png', 'GTM' => 'guatemala.png', 'CRI' => 'costarica.png'];
+        $meses = ['01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo', '04' => 'Abril', '05' => 'Mayo', '06' => 'Junio', '07' => 'Julio', '08' => 'Agosto', '09' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre'];
+        $lastUpdate = explode(' ', $lastUpdate->Last_Update);
+        $mes = $lastUpdate[0];
+        $mes = explode('-', $mes);
+        $dia = $mes[2];
+        $mes = $meses[$mes[1]];
+        ($dia[0] == 0) ? $dia = str_replace("0", "", $dia): null;
+        $lastUpdate = explode('.', $lastUpdate[1]);
+
+        $lastUpdate = $lastUpdate[0];
+        $hora = $lastUpdate;
+        $fechaUpdate['dia'] = $dia;
+        $fechaUpdate['mes'] = $mes;
+        $fechaUpdate['hora'] = $hora;
+
+        if(sizeof($asesor) > 0){
+            $asesor = "nuevo";
+        }
+        else{
+            $asesor = "antiguo";
+        }
+        //return $asesor;
+        return view('inc1USD.inc1USD_',  compact('associateid', 'fechaUpdate', 'abiInfo', 'asesor', 'flag'));
+    }
+
     public function inc1USDGetDetails(Request $request){
         $associateid = $request->associateid;
         $conexion5 = DB::connection('sqlsrv5');
@@ -89,6 +146,88 @@ class inc1USDController extends Controller{
         //return $associateid;
         $conexion5 = DB::connection('sqlsrv5');
         $details = $conexion5->select("SELECT *, 0 AS 'payment', 0  AS 'status', 0 AS 'existe' FROM WinKit_1USD WHERE SponsorId = $associateid");
+        $tamaño = 0;
+        /*\DB::disconnect('sqlsrv5');
+        return $details[0]->CodigoBoleto;*/
+        for ($i=0; $i < sizeof($details); $i++) {
+            $payment = 0;
+            $status = 0;
+            $nuevo_codigo = 0;
+            $pais = 0;
+            $created_at = '1900-01-01 00:00:00.000';
+            $Updated_at = '1900-01-01 00:00:00.000';
+            $boleto = $details[$i]->CodigoBoleto;
+            $dataStatus = $this->inc1USDgetIntermedia($details[$i]->CodigoBoleto, $details[$i]->SponsorId);
+            $nPaisLetras = [ 1 => 'COL', 2 => 'MEX', 3 => 'PER', 4 => 'ECU', 5 => 'PAN', 6 => 'GTM', 7 => 'SLV', 8 => 'CRI', 10 => 'CHL'];
+            $existe = 0;
+
+            if(sizeof($dataStatus) > 0){
+                $payment = $dataStatus[0]->payment;
+                $status = $dataStatus[0]->status;
+                $nuevo_codigo = $dataStatus[0]->code_redeem;
+                $pais = $dataStatus[0]->country_id;
+                $created_at = $dataStatus[0]->created_at;
+                $Updated_at = $dataStatus[0]->updated_at;
+                $update = $conexion5->update("UPDATE WinKit_1USD SET CodigoInfluencer_1USD = '$nuevo_codigo', Estatus = '$status', Pais_Influencer1USD = '$nPaisLetras[$pais]', created_at = '$created_at', Updated_at = '$Updated_at' WHERE SponsorId = $associateid AND CodigoBoleto = '$boleto'");
+                $existe = 1;
+            }
+            $details[$i]->payment = intval($payment);
+            $details[$i]->status = intval($status);
+            $details[$i]->existe = intval($existe);
+        }
+        \DB::disconnect('sqlsrv5');
+        $data = [
+            'data' => $details,
+        ];
+        return $data;
+    }
+
+    public function inc1USDGetticketsIncorp(Request $request){
+        $associateid = $request->associateid;
+        //return $associateid;
+        $conexion5 = DB::connection('sqlsrv5');
+        $details = $conexion5->select("SELECT *, 0 AS 'payment', 0  AS 'status', 0 AS 'existe' FROM WinKit_1USD WHERE SponsorId = $associateid and TypeInflu <> 4");
+        $tamaño = 0;
+        /*\DB::disconnect('sqlsrv5');
+        return $details[0]->CodigoBoleto;*/
+        for ($i=0; $i < sizeof($details); $i++) {
+            $payment = 0;
+            $status = 0;
+            $nuevo_codigo = 0;
+            $pais = 0;
+            $created_at = '1900-01-01 00:00:00.000';
+            $Updated_at = '1900-01-01 00:00:00.000';
+            $boleto = $details[$i]->CodigoBoleto;
+            $dataStatus = $this->inc1USDgetIntermedia($details[$i]->CodigoBoleto, $details[$i]->SponsorId);
+            $nPaisLetras = [ 1 => 'COL', 2 => 'MEX', 3 => 'PER', 4 => 'ECU', 5 => 'PAN', 6 => 'GTM', 7 => 'SLV', 8 => 'CRI', 10 => 'CHL'];
+            $existe = 0;
+
+            if(sizeof($dataStatus) > 0){
+                $payment = $dataStatus[0]->payment;
+                $status = $dataStatus[0]->status;
+                $nuevo_codigo = $dataStatus[0]->code_redeem;
+                $pais = $dataStatus[0]->country_id;
+                $created_at = $dataStatus[0]->created_at;
+                $Updated_at = $dataStatus[0]->updated_at;
+                $update = $conexion5->update("UPDATE WinKit_1USD SET CodigoInfluencer_1USD = '$nuevo_codigo', Estatus = '$status', Pais_Influencer1USD = '$nPaisLetras[$pais]', created_at = '$created_at', Updated_at = '$Updated_at' WHERE SponsorId = $associateid AND CodigoBoleto = '$boleto'");
+                $existe = 1;
+            }
+            $details[$i]->payment = intval($payment);
+            $details[$i]->status = intval($status);
+            $details[$i]->existe = intval($existe);
+        }
+        \DB::disconnect('sqlsrv5');
+        $data = [
+            'data' => $details,
+        ];
+        return $data;
+    }
+
+    public function inc1USDGetticketsVenta(Request $request){
+        $associateid = $request->associateid;
+        //return $associateid;
+        $conexion5 = DB::connection('sqlsrv5');
+        $details = $conexion5->select("SELECT *, 0 AS 'payment', 0  AS 'status', 0 AS 'existe' FROM WinKit_1USD WHERE SponsorId = $associateid and TypeInflu = 4");
         $tamaño = 0;
         /*\DB::disconnect('sqlsrv5');
         return $details[0]->CodigoBoleto;*/
@@ -1003,5 +1142,17 @@ class inc1USDController extends Controller{
         else{
             return 0;
         }
+    }
+
+    public function inc1USDGetGenealogyMkPlus(Request $request){
+        $associateid = $request->associateid;
+        $type = $request->type;
+        $conexion5 = DB::connection('sqlsrv5');
+            $gen = $conexion5->select("EXEC Gen_MokutekiPLUS $associateid, $type");
+        \DB::disconnect('sqlsrv5');
+        $data = [
+            'data' => $gen,
+        ];
+        return $data;
     }
 }

@@ -259,7 +259,7 @@ class CMSMyNikkenController extends Controller{
         $mail = $request->mail;
         if($sap_code == ''){
             $usuarios = control_ci::select('*')
-            ->Where('correo', 'like', '%' . "$mail" . '%')
+            ->Where('correo', 'like', "%$mail%")
             ->get();
         }
         else{
@@ -279,7 +279,7 @@ class CMSMyNikkenController extends Controller{
         $mail = $request->mail;
         if($sap_code == ''){
             $usuarios = User::select('*')
-            ->Where('email', 'like', '%' . "$mail" . '%')
+            ->Where('email', 'like',  "%$mail%")
             ->where('client_type', '<>', 'CLIENTE')
             ->get();
         }
@@ -533,7 +533,7 @@ class CMSMyNikkenController extends Controller{
 
     public function cmsObtenerCodesSerPro(){
         $conexion = DB::connection('sqlsrv5');
-            $codes = $conexion->select("SELECT numci as associateid, Rango from Rangos_Avance_SerPro where period=convert(char(6), EOMONTH(getdate(),-1),112)");
+            $codes = $conexion->select("SELECT numci as associateid, Rango from Rangos_Avance_SerPro where period=convert(char(6), EOMONTH(getdate(),-1),112) and Contestado = 0");
         \DB::disconnect('sqlsrv5');
         $codesFin = "";
         for($x = 0; $x < sizeof($codes); $x++){
@@ -589,69 +589,32 @@ class CMSMyNikkenController extends Controller{
         return "sended";
     }
 
-    public function cmsGetVentasClientes(Request $request){
-        $fileName='Clientes TV';
-        //$viajerosPro = User::select('*')->Where('email', 'not like', "%@delete%")->where('client_type', '=', 'CLIENTE')->where('status', '=', 1)->where('locked', '=', 0)->get();
-        $viajerosPro = User::select('*')->Where('email', 'not like', "%@delete%")->where('client_type', '=', 'CLIENTE')->where('status', '=', 1)->where('locked', '=', 0)->get();
-        return $viajerosPro;
-        
-        \Excel::create($fileName, function($excel) use ($viajerosPro) {
-            $excel->sheet('Clientes', function($sheet) use ($viajerosPro) {
+    public function cmsDepuradosActivos(Request $request){
+        $depurados = User::select('sap_code')->whereNotNull('sap_code')->where('email', 'like', "%@delete%")->where('status', '=', 1)->where('locked', '=', 0)->whereIn('client_type', ['CI', 'CLUB'])->take(1000)->get();
+        $codesFin = "";
+        for($x = 0; $x < sizeof($depurados); $x++){
+            $codesFin .= trim($depurados[$x]->sap_code) . ',';
+        }
+        $codesFin = substr($codesFin, 0, -1);
+        return $codesFin;
+    }
 
-                $sheet->cell('A2', function($cell){
-                    $cell->setValue('Nombre');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
+    public function cmsDepurarActivos(Request $request){
+        date_default_timezone_set('America/Mexico_City');
+        $sap_code = $request->sap_code;
+        $fecha_depuracion = Date('YmdHm');
 
-                $sheet->cell('B2', function($cell){
-                    $cell->setValue('Apellido');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
+        $usuarios = User::select('email')
+        ->Where('sap_code', '=', $sap_code)
+        ->get();
+        $email = $usuarios[0]->email;
+        $update = User::Where('sap_code', '=', $sap_code)
+        ->update(['email' => $email . '_' . $fecha_depuracion ]);
+        $update = User::Where('sap_code', '=', $sap_code)
+        ->update(['status' => 0 ]);
+        $update = User::Where('sap_code', '=', $sap_code)
+        ->update(['locked' => 1 ]);
 
-                $sheet->cell('C2', function($cell){
-                    $cell->setValue('Correo');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                $sheet->cell('D2', function($cell){
-                    $cell->setValue('Pais');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                $sheet->cell('E2', function($cell){
-                    $cell->setValue('Codigo patrocinador');
-                    $cell->setAlignment('center'); //Centramos contenido
-                    $cell->setFontWeight('bold'); //Negritas
-                });
-
-                // Mostramos los registros
-                foreach ($viajerosPro as $idx => $row){
-                    $idx = ($idx  + 3);
-                    $sheet->cell('A'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->name);
-                    });
-                    
-                    $sheet->cell('B'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->last_name);
-                    });
-                    
-                    $sheet->cell('C'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->email);
-                    });
-                    
-                    $sheet->cell('D'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->country_id);
-                    });
-
-                    $sheet->cell('E'.$idx, function($cell) use ($row) {
-                        $cell->setValue($row->sap_code_sponsor);
-                    });
-                }
-            });
-        })->export('csv');
+        return 'Depurado';
     }
 }

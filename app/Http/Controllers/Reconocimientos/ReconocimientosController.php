@@ -975,7 +975,7 @@ class ReconocimientosController extends Controller{
     public function MyAlcacniaDataDetail(Request $request){
         $ordernum = $request->ordernum;
         $conexion = \DB::connection('sqlsrv5');
-            $genealogy = $conexion->select("SELECT DocSale, ItemCode,Quantity,UnitPrice,U_Puntos,U_vol_calc FROM DwnPOrderLines WHERE DocSale=$ordernum");
+            $genealogy = $conexion->select("SELECT a.DocSale, a.ItemCode,b.ItemName, a.Quantity, a.UnitPrice, a.U_Puntos, a.U_vol_calc FROM [dbo].[DwnPOrderLines] a LEFT JOIN LAT_MyNIKKEN.[dbo].[Catalogo_Productos] b ON ltrim(rtrim(a.itemCode))=ltrim(rtrim(b.itemCode)) WHERE a.DocSale = $ordernum");
         \DB::disconnect('sqlsrv5');
         $data = [
 			'data' => $genealogy,

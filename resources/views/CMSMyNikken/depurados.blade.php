@@ -244,6 +244,26 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>depurtar correctamente</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <div class="form-group mb-4">
+                        <label for="sap_code_depuara_bien">sap_code a depurtar correctamente se puran 500 códigos por ejecución)</label>
+                        <textarea class="form-control-rounded form-control" id="sap_code_depuara_bien" name="sap_code_depuara_bien" rows="6" lang="es"></textarea>
+                    </div>
+                    <button class="btn btn-gradient-danger btn-rounded mb-4 mr-2" onclick="cmsDepuradosActivos()">Obtener códigos depuarados mal</button>
+                    <button class="btn btn-gradient-danger btn-rounded mb-4 mr-2" onclick="cmsDepurarActivos()">depuras bien</button>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -965,6 +985,33 @@
                     allowOutsideClick: false,
                     allowEscapeKey: false,
                 })
+            }
+        }
+
+        $("#sap_code_depuara_bien").val('');
+        function cmsDepuradosActivos(){
+            $("#sap_code_depuara_bien").val('');
+            $.ajax({
+                type: "get",
+                url: "/cmsDepuradosActivos",
+                success: function (response) {
+                    $("#sap_code_depuara_bien").val(response);
+                }
+            });
+        }
+
+
+        function cmsDepurarActivos(){
+            var codigorango = $("#sap_code_depuara_bien").val();
+            codigorango = codigorango.split(',');
+            for(x = 0; x < codigorango.length; x++){
+                $.ajax({
+                    type: "get",
+                    url: "/cmsDepurarActivos",
+                    data: { sap_code: codigorango[x] },
+                    success: function (response) {
+                    }
+                });
             }
         }
     </script>

@@ -510,15 +510,19 @@
 					</div>
 					<div class="col-xl-6 col-lg-6 col-md-12 site-content-inner text-center">
 						<i class="flaticon-money"></i>
-						<p>Para los nuevos influencers que se incorporen una vez que ha iniciado el primer mes del Reto, podrán participar realizando a partir de la fecha de su inscripción todos los requisitos mensuales y trimestrales; complementando los requisitos al finalizar el año. Ejemplo: Si un nuevo influencer se inscribe en Abril, en este mes deberá de realizar los requisitos mensuales y trimestrales (Trimestre Abril-Mayo-Junio) y cumplir con los requisitos de los siguientes trimestres y adicional al finalizar el año deberá tener acumulado VP=4,800, VP= 4,800 VGP = 48,000 Inscritos = 12 con VP 100 , KIN YA = 4.</p>
+						<p>Para los nuevos influencers que se incorporen durante el 2021, podrán participar realizando las bases correspondientes. Teniendo la oportunidad de realizar  100 VP en su mes de incorporación y en los meses que conforman el trimestre de incorporación. En los trimestres siguientes al trimestre de incorporación, deberán realizar los requisitos trimestrales que se solicitan ( 1,200 VP , 12,000 VGP, 1 kinya y 3 incorporaciones con 100 VP)  y completar los requisitos faltantes que no realizó en el primer trimestre de su incorporación.</p>
 					</div>
 					<div class="col-xl-6 col-lg-6 col-md-12 site-content-inner text-center">
 						<i class="flaticon-money"></i>
-						<p>En caso de que los nuevos influencers se incorporen en el último mes del trimestre: 1er trimestre (Marzo) , 2º Trimestre (Junio), 3er Trimestre (Septiembre), 4º. Trimestre (Diciembre) el influencer se le permitirá sólo realizar 100 VP en el mes de incorporación  y realizar los requisitos mensuales y trimestrales en los siguientes trimestres. Al finalizar el año deberá tener acumulado VP=4,800, VP= 4,800 VGP = 48,000 Inscritos = 12 con VP 100 , KIN YA = 4.</p>
+						<p>Para los nuevos influencers que se incorporen durante el 2021, al finalizar el año deberán de tener acumulado: VP= 4,800  VGP= 48,000  Inscritos= 12 con VP100 y Kinya=4</p>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
 						<i class="flaticon-money"></i>
 						<p>Los trimestres están conformados: 1er. Trimestre (Ene-Feb-Marzo), 2º. Trimestre (Abril-Mayo-Junio), 3er. Trimestre (Julio-Agosto.Septiembre) y 4º. Trimestre ( Octubre-Noviembre-Diciembre) </p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>Los 100 VP de las incorporaciones, deben ser realizados en un mes calendario dentro del trimestre.</p>
 					</div>
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
 						<i class="flaticon-money"></i>
@@ -539,6 +543,10 @@
 					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
 						<i class="flaticon-money"></i>
 						<p>El cumplimiento de los requisitos deben ser realizados conforme a las políticas del manual del Asesor de Bienestar NIKKEN.</p>
+					</div>
+					<div class="col-xl-4 col-lg-4 col-md-4 site-content-inner text-center">
+						<i class="flaticon-money"></i>
+						<p>Para los nuevos influencers que se incorporen durante el 2021, en caso de que realicen en el trimestre de su incorporación sólo haya realizado 100 VP mensuales, no podrá considerarse como ganador de dicho trimestre por lo que no participará en ese trimestre en el Sorteo. Este trimestre se le tomará para que continué realizando las bases de Club Viajero.</p>
 					</div>
 				</div>
 			</div>
