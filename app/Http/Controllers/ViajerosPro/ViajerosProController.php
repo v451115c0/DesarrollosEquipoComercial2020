@@ -666,13 +666,14 @@ class ViajerosProController extends Controller{
         $periodo = 202012;
 
         $conexion5 = \DB::connection('sqlsrv5');
-            $abiInfo = $conexion5->select("SELECT top 1 * FROM [ClubKiai] WHERE [Associateid] = '$associateid' order by [Periodo] desc");
+            //$abiInfo = $conexion5->select("SELECT top 1 * FROM [ClubKiai] WHERE [Associateid] = '$associateid' order by [Periodo] desc");
+            $abiInfo = $conexion5->select("SELECT top 1 a.*, b.Validacion FROM ClubKiai a INNER JOIN ResumenTrimestral b ON a.Associateid=b.Associateid and a.NoTrimestre=b.NoTrimestre WHERE a.Associateid = '$associateid' order by Periodo desc");
             $trimestres = $conexion5->select("SELECT * FROM [ResumenTrimestral] WHERE [AssociateId] = '$associateid' order by [NoTrimestre] asc");
             $detalleTrimestre = $conexion5->select("SELECT * FROM [ClubKiai] where [Associateid] = '$associateid' order by [Periodo] asc");
             $totalsKinya = $conexion5->select("SELECT SUM(kinya) AS totalKinya, SUM(KinYaL1) AS totalKinyalvl FROM Puntos2020 WHERE associateid = $associateid");
             $lastUpdate = $conexion5->select("SELECT TOP 1 Last_Update FROM Historico_Ejecucion WHERE Programa = 'Retos_Especiales' ORDER BY Last_Update DESC;");
         \DB::disconnect('sqlsrv5');
-        
+        //return $abiInfo;
         $update = $this->fromatLastUpdate($lastUpdate);
         return view('retosEspeciales.clubV', compact('associateid', 'abiInfo', 'totalsKinya', 'update', 'trimestres', 'detalleTrimestre'));
     }
@@ -877,11 +878,12 @@ class ViajerosProController extends Controller{
         $associateRank = $request->associateRank;
         $associatePais = $request->associatePais;
         $associatename = $request->associatename;
+        $ip = $request->ip;
         
         $conexion5 = \DB::connection('sqlsrv5');
             $exist = $conexion5->select("SELECT Associateid FROM Cuestionario_PLA WHERE Associateid = $associateid");
             if(sizeof($exist) <=  0){
-                $reg = $conexion5->insert("INSERT INTO Cuestionario_PLA VALUES('$associateid', '$associatename', '$mentor', '5', '$pilar', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$comentario', '$prg9_1', '$prg9_2', '$fecha_reg', '0', '0', '$associatePais')");
+                $reg = $conexion5->insert("INSERT INTO Cuestionario_PLA VALUES('$associateid', '$associatename', '$mentor', '5', '$pilar', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$comentario', '$prg9_1', '$prg9_2', '$fecha_reg', '0', '0', '$associatePais', '$ip')");
                 $update = $conexion5->update("UPDATE Rangos_Avance_SerPro SET Contestado = 1 WHERE numci = $associateid");
             }
         \DB::disconnect('sqlsrv5');
@@ -918,11 +920,12 @@ class ViajerosProController extends Controller{
         $Aprobacion = $request->Aprobacion;
         $TotalPregunta = $request->TotalPregunta;
         $Pais = $request->Pais;
+        $ip = $request->ip;
         
         $conexion5 = \DB::connection('sqlsrv5');
             $exist = $conexion5->select("SELECT Associateid FROM Cuestionario_ORO WHERE Associateid = $Associateid");
             if(sizeof($exist) <=  0){
-                $reg = $conexion5->insert("INSERT INTO Cuestionario_ORO VALUES('$Associateid', '$AssociateName', '$Mentor', '$Avance_Rango', '$Pregunta1', '$Pregunta2', '$Pregunta3', '$Pregunta4', '$Pregunta5', '$Pregunta6', '$Pregunta7', '$Pregunta8', '$Pregunta9', '$Pregunta10_1', '$Pregunta10_2', '$Pregunta10_3', '$FechaRegistro', '$Aprobacion', '$TotalPregunta', '$Pais')");
+                $reg = $conexion5->insert("INSERT INTO Cuestionario_ORO VALUES('$Associateid', '$AssociateName', '$Mentor', '$Avance_Rango', '$Pregunta1', '$Pregunta2', '$Pregunta3', '$Pregunta4', '$Pregunta5', '$Pregunta6', '$Pregunta7', '$Pregunta8', '$Pregunta9', '$Pregunta10_1', '$Pregunta10_2', '$Pregunta10_3', '$FechaRegistro', '$Aprobacion', '$TotalPregunta', '$Pais', '$ip')");
                 $update = $conexion5->update("UPDATE Rangos_Avance_SerPro SET Contestado = 1 WHERE numci = $Associateid");
             }
         \DB::disconnect('sqlsrv5');
@@ -982,5 +985,23 @@ class ViajerosProController extends Controller{
     public function redirect(Request $request){
         $associateid = $request->associateid;
         return redirect('/retosEspeciales2021/' . $associateid);
+    }
+
+    /*=== test de encryptado ===*/
+    public function encryptView(Request $request){
+        $val = $request->val;
+        return view('retosEspeciales.encrypt', compact('val'));
+    }
+
+    public function desEncriptphp(Request $request){
+        $encoded = $request->txt;
+        $encoded = base64_decode($encoded);
+        $decoded = "";
+        for( $i = 0; $i < strlen($encoded); $i++ ) {
+            $b = ord($encoded[$i]);
+            $a = $b ^ 10; 
+            $decoded .= chr($a);
+        }
+        return base64_decode(base64_decode($decoded));
     }
 }

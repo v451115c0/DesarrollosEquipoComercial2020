@@ -119,12 +119,12 @@
 									<input type="hidden" id="Pais" readonly value="{{ $abiInfo[0]->Pais ?? 'LAT' }}">
 								</div>
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4">
-									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusper-modal-xl">
+									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusper-modal-xl" onclick="navigationTracking({{ $associateid ?? 9845903 }}, 'Mokuteki PLUS', 'Mis Kits')">
 										Mis Kits
 									</a>
 								</div>
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4">
-									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusRed-modal-xl">
+									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusRed-modal-xl" onclick="navigationTracking({{ $associateid ?? 9845903 }}, 'Mokuteki PLUS', 'Estatus de mi red')">
 										Estatus de mi red
 									</a>
 								</div>
@@ -136,23 +136,23 @@
 								@endphp
 								@if ($asesor == 'nuevo')
 									<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4">
-										<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusMiInicio-modal-xl">
+										<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusMiInicio-modal-xl" onclick="navigationTracking({{ $associateid ?? 9845903 }}, 'Mokuteki PLUS', 'Mi Inicio Perfecto')">
 											Mi Inicio Perfecto
 										</a>
 									</div>
 								@endif
 								<div class="{{ $class }} site-content-inner align-self-center mr-auto mt-4">
-									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusInicioRed-modal-xl">
+									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusInicioRed-modal-xl" onclick="navigationTracking({{ $associateid ?? 9845903 }}, 'Mokuteki PLUS', 'Inicio perfecto de mi red')">
 										Inicio perfecto de mi red
 									</a>
 								</div>
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4">
-									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusMkPlus-modal-xl">
-										Estatus MOKUTEKI PLUS
+									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-estatusMkPlus-modal-xl" onclick="navigationTracking({{ $associateid ?? 9845903 }}, 'Mokuteki PLUS', 'Estatus de mi red MOKUTEKI PLUS')">
+										Estatus de mi red MOKUTEKI PLUS
 									</a>
 								</div>
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4">
-									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-tabBonos-modal-xl">
+									<a class="btn btn-classic btn-primary btnModal br-50 col-md-8 mb-2 pt-2 pb-2 confetti-button" href="javascript:void(0)" role="button" data-toggle="modal" data-target=".bd-tabBonos-modal-xl" onclick="navigationTracking({{ $associateid ?? 9845903 }}, 'Mokuteki PLUS', 'Tabla de bonos')">
 										Tabla de bonos
 									</a>
 								</div>
@@ -574,12 +574,12 @@
 			<div id="chat-circle" class="btn btn-raised d-lg-block bs-tooltip" data-placement="left" title="Conoce" data-toggle="modal" data-target=".mdl-tutorial">
 				<i class="flaticon-youtube-play-button-line"></i>
 			</div>
-			<div class="modal fade bd-example-modal-lg mdl-tutorial" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" onclick="stopVideo()">
+			<div class="modal fade bd-example-modal-lg mdl-tutorial" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" onclick="stopVideo(); navigationTracking($associateid, 'Mokuteki PLUS', 'Ver videos')">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h3 class="modal-title" id="myExtraLargeModalLabel"></h3>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="stopVideo()">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="stopVideo(); navigationTracking($associateid, 'Mokuteki PLUS', 'Ver videos')">
 								<span aria-hidden="true">×</span>
 							</button>
 						</div>
@@ -805,7 +805,7 @@
 										<h2 class="mb-3">{{ $abiInfo[0]->AssociateName ?? 'NIKKEN LATAM' }}</h2>
 										<h5>
 											Tu genealogía: 
-											<select class="selectpicker mt-3" onchange="getReport()" id="type">
+											<select class="selectpicker mt-3" onchange="getReport();" id="type">
 												<option value="1">Grupo Personal</option>
 												<option value="0">Organizacional</option>
 											</select>
@@ -1212,6 +1212,7 @@
 		</div>
     </body>
 	<script src="{{ asset('fpro/js/libs/jquery-3.1.1.min.js') }}"></script>
+	<script src="{{ asset('fpro/js/navigationTracking.js') }}"></script>
 	<script src="{{ asset('fpro/bootstrap/js/popper.min.js') }}"></script>
 	<script src="{{ asset('fpro/bootstrap/js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('fpro/plugins/sliders/owlCarousel/js/owl.carousel.min.js') }}"></script>
@@ -1223,7 +1224,6 @@
 	<script src="{{ asset('fpro/plugins/table/datatable/button-ext/buttons.print.min.js') }}"></script>
 	<script src="{{ asset('fproh/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
 	<script src="{{ asset('fpro/mainjs/inc1USD/inc1USD.js') }}"></script>
-
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-179492717-1"></script>
 	<script>

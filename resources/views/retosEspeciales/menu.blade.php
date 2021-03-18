@@ -218,6 +218,7 @@
 	<script src="{{ asset('fpro/js/aos.js') }}"></script>
 	<script src="{{ asset('fproh/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
 	<script src="{{ asset('fpro/mainjs/ViajerosPro/viajerospro.js') }}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153578520-1"></script>
 	<script>
@@ -226,6 +227,23 @@
 		gtag('js', new Date());
 
 		gtag('config', 'UA-153578520-1');
+	</script>
+
+	<script>
+		function encode(str) {
+			var encoded = "";
+			str = btoa(str);
+			str = btoa(str);
+			for (i=0; i<str.length;i++) {
+				var a = str.charCodeAt(i);
+				var b = a ^ 10; // bitwise XOR with any number, e.g. 123
+				encoded = encoded+String.fromCharCode(b);
+			}
+			encoded = btoa(encoded);
+			return encoded;
+		}
+		var t = encode("hola mundo");
+		console.log(t);
 	</script>
 
 	@if ($rango != 'PLO' && $rango != 'DIA' && $rango != 'DRL')

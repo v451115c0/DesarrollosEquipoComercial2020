@@ -61,8 +61,9 @@
                       <input type="hidden" name="sap_code" id="sap_code" class="form-control mt-3 form-control-sm" value="{{$sap_code}}" > 
                       <input type="hidden" name="nameRequest" id="nameRequest" class="form-control mt-3 form-control-sm" value="{{$nameRequest}}"> 
                     </div>
-                     <input type="button" name="btnvalidate" id="btnvalidate" class="mt-4 mb-4 btn btn-button-7 btn-rounded" value="Buscar">
-                    <input type="submit" name="btnupdate" id="btnupdate" class="mt-4 mb-4 btn btn-button-7 btn-rounded visibility-hidden" value="Actualizar">
+                      <input type="button" name="btnvalidate" id="btnvalidate" class="mt-4 mb-4 btn btn-button-7 btn-rounded" value="Buscar">
+                      <input type="submit" name="btnupdate" id="btnupdate" class="mt-4 mb-4 btn btn-button-7 btn-rounded visibility-hidden" value="Actualizar">
+                      <a href="{{ url("/update_email/" . $usuariobase)}}" class="mt-4 mb-4 btn btn-button-7 btn-rounded">Regresar</a>
                   </div>
                 </form>
               </div>

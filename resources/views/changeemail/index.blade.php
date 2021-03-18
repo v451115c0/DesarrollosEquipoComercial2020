@@ -51,7 +51,7 @@
 
                                   <strong>{{ Session::get('alertType') }}</strong> {{ Session::get('notice') }}
                               </div>
-                          @endif
+                            @endif
                           </div>
 
                         </div>
@@ -71,6 +71,7 @@
                       <label for="code">Código Influencer/Miembro</label>
                       <input type="text" name="code" id="code" class="form-control mt-3 form-control-sm">
                       <input type="hidden" name="nameRequest" id="nameRequest" class="form-control mt-3 form-control-sm" value="{{$staff->name}}">
+                      <input type="hidden" name="email" id="email" class="form-control mt-3 form-control-sm" value="{{$user}}">
                     </div>
                     <input type="submit" name="time" id="time" class="mt-4 mb-4 btn btn-button-7 btn-rounded" value="Buscar">
                   </div>

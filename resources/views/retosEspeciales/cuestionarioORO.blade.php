@@ -387,7 +387,27 @@
 	<script src="{{ asset('fpro/js/pages/landing-page/script.js') }}"></script>
     <script src="{{ asset('fproh/plugins/sweetalerts/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('fpro/bootstrap/js/popper.min.js') }}"></script>
-    
+    @php
+		function getIP() {
+			if (isset($_SERVER)) {
+				if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+					return $_SERVER['HTTP_X_FORWARDED_FOR'];
+				}
+				else {
+					return $_SERVER['REMOTE_ADDR'];
+				}
+			}
+			else {
+				if (isset($GLOBALS['HTTP_SERVER_VARS']['HTTP_X_FORWARDER_FOR'])) {
+					return $GLOBALS['HTTP_SERVER_VARS']['HTTP_X_FORWARDED_FOR'];
+				}
+				else {
+					return $GLOBALS['HTTP_SERVER_VARS']['REMOTE_ADDR'];
+				}
+			}
+		}
+	@endphp
+    <input type="hidden" id="ip" value="{{ getIP() }}">
     <script>
         function loaduplineSerPro(){
             var associateid = $("#associateid").val();
@@ -422,7 +442,7 @@
             var Aprobacion = 0;
             var TotalPregunta = 0;
             var Pais = $("#associatePais").val();
-
+            var ip = $("#ip").val();
             if(parseInt(Mentor) > 0 && Pregunta1.trim() != '' && Pregunta9.trim() != ''){
                 var data = {
                     Associateid: Associateid,
@@ -444,6 +464,7 @@
                     Aprobacion: Aprobacion,
                     TotalPregunta: TotalPregunta,
                     Pais: Pais,
+                    ip: ip,
                 };
                 $.ajax({
                     type: "get",

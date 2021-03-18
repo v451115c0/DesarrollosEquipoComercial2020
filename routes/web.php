@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('navigationTracking', 'Reportes\ReportesController@navigationTracking');
 /*=============== Retos especiales================================*/
 Route::get('/kiai/{associateid}', "Retos\kaizenController@kiaiIndex");
 
@@ -195,6 +195,8 @@ Route::get('Grupo_Frontalidad', 'Reportes\ReportesController@Grupo_Frontalidad')
 Route::get('avancesSerPro', 'Reportes\ReportesController@avancesSerPro'); // reporte de avances SER PRO
 Route::get('reportCuestionarioPlatas', 'Reportes\ReportesController@reportCuestionarioPlatas'); // reporte de cuestionarios PLATAS
 Route::get('reportCuestionarioOros', 'Reportes\ReportesController@reportCuestionarioOros'); // reporte de cuestionarios OROS
+Route::get('estrategiaOctReport', 'Reportes\ReportesController@estrategiaOctReport'); // reporte de rutas a mokuteki plus
+Route::get('reporteClientesTV', 'Reportes\ReportesController@reporteClientesTV'); // reporte de rutas a mokuteki plus
 
 /*=== CMS Nikkenlatam ===*/
 Route::get('cmsmynikken/addNotify', 'CMSMyNikken\CMSMyNikkenController@index');
@@ -265,3 +267,8 @@ route::get('MyAlcacniaDataRed', 'Reconocimientos\ReconocimientosController@MyAlc
 Route::get('reports', 'Reports\ReportsController@reports');
 Route::get('login', 'Reports\ReportsController@login');
 Route::get('ventas', 'Reports\ReportsController@Ventas');
+
+
+/*=== test de encryptado ===*/
+Route::get('encryptView', 'ViajerosPro\ViajerosProController@encryptView');
+Route::get('desEncriptphp', 'ViajerosPro\ViajerosProController@desEncriptphp');

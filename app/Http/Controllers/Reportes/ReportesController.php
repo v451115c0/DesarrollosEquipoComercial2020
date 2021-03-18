@@ -5,8 +5,46 @@ namespace App\Http\Controllers\Reportes;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use App\User;
+
+date_default_timezone_set('America/Mexico_City');
 
 class ReportesController extends Controller{
+    public function navigationTracking(Request $request){
+        $associateid = $this->decriptData($request->associateid);
+        $fecha = Date('Y-m-d H:i:s');
+        $plataforma = $this->decriptData($request->plataforma);
+        $accion = $this->decriptData($request->accion);
+        $pais = "LAT";
+        $rango = "DIR";
+        $conexion = DB::connection('sqlsrv5');
+            $abiInfo = $conexion->table('puntos2020')->select('Pais', 'Rango')->where('associateid', '=', $associateid)->where('Periodo', '=', Date('Ym'))->get();
+            $pais = $abiInfo[0]->Pais;
+            $rango = $abiInfo[0]->Rango;
+            $saveNavigation = $conexion->table('Metricas_Nikken')->insert(
+                [
+                    'Associateid' => $associateid,
+                    'Rango' => "$rango",
+                    'Pais' => "$pais",
+                    'Fecha' => "$fecha",
+                    'Plataforma' => "$plataforma",
+                    'Accion' => "$accion"
+                ]
+            );
+        \DB::disconnect('sqlsrv5');
+    }
+
+    public function decriptData($encoded){
+        $encoded = base64_decode($encoded);
+        $decoded = "";
+        for( $i = 0; $i < strlen($encoded); $i++ ) {
+            $b = ord($encoded[$i]);
+            $a = $b ^ 10; 
+            $decoded .= chr($a);
+        }
+        return base64_decode(base64_decode($decoded));
+    }
+
     public function viewReportes(){
         return view('inc1USD.reporte.index');
     }
@@ -14,11 +52,149 @@ class ReportesController extends Controller{
     public function winViajeros(){
         $fileName='Ganadores Club Viajeros';
         $conexion = DB::connection('sqlsrv5');
-            $timestreTres = $conexion->select("select a.associateid,b.AssociateName,b.Rango,a.NoTrimestre,a.Validacion from ResumenTrimestral a with(nolock) inner join Puntos2020 b with(nolock) on a.Associateid=b.Associateid where a.validacion='T' and a.notrimestre=3 and b.Periodo=202010");
-            $timestreCuatro = $conexion->select("select a.associateid,b.AssociateName,b.Rango,a.NoTrimestre,a.Validacion from ResumenTrimestral a with(nolock) inner join Puntos2020 b with(nolock)on a.Associateid=b.Associateid where a.validacion='T' and a.notrimestre=4 and b.Periodo=202012");
+            $timestreUno = $conexion->select("SELECT * FROM Win_ClubViajeros(1)");
+            $timestreDos = $conexion->select("SELECT * FROM Win_ClubViajeros(2)");
+            $timestreTres = $conexion->select("SELECT * FROM Win_ClubViajeros(3)");
+            $timestreCuatro = $conexion->select("SELECT * FROM Win_ClubViajeros(4)");
         \DB::disconnect('sqlsrv5');
         
-        \Excel::create($fileName, function($excel) use ($timestreTres, $timestreCuatro) {
+        \Excel::create($fileName, function($excel) use ($timestreUno, $timestreDos, $timestreTres, $timestreCuatro) {
+            $excel->sheet('1er timerste', function($sheet) use ($timestreUno) {
+                $sheet->mergeCells('A1:E1');
+
+                $sheet->cell('A1', function($cell){
+                    $cell->setValue('Ganadores Club Viajeros 1er Trimestre');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                    $cell->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '15',
+                    ));
+                });
+
+                $sheet->cell('A3', function($cell){
+                    $cell->setValue('Código de Asesor');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('B3', function($cell){
+                    $cell->setValue('Nombre');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('C3', function($cell){
+                    $cell->setValue('Rango');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('D3', function($cell){
+                    $cell->setValue('Trimestre');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('E3', function($cell){
+                    $cell->setValue('Gana?');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+                				
+                // Mostramos los registros
+                foreach ($timestreUno as $idx => $row){
+                    $idx = ($idx  + 4);
+                    $sheet->cell('A'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->associateid);
+                    });
+                    
+                    $sheet->cell('B'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->AssociateName);
+                    });
+                    
+                    $sheet->cell('C'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Rango);
+                    });
+
+                    $sheet->cell('D'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->NoTrimestre);
+                    });
+
+                    $sheet->cell('E'.$idx, function($cell) use ($row) {
+                        $cell->setValue("si");
+                    });
+                }
+            });
+
+            $excel->sheet('2do timerste', function($sheet) use ($timestreDos) {
+                $sheet->mergeCells('A1:E1');
+
+                $sheet->cell('A1', function($cell){
+                    $cell->setValue('Ganadores Club Viajeros 2do Trimestre');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                    $cell->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '15',
+                    ));
+                });
+
+                $sheet->cell('A3', function($cell){
+                    $cell->setValue('Código de Asesor');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('B3', function($cell){
+                    $cell->setValue('Nombre');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('C3', function($cell){
+                    $cell->setValue('Rango');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('D3', function($cell){
+                    $cell->setValue('Trimestre');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('E3', function($cell){
+                    $cell->setValue('Gana?');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+                				
+                // Mostramos los registros
+                foreach ($timestreDos as $idx => $row){
+                    $idx = ($idx  + 4);
+                    $sheet->cell('A'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->associateid);
+                    });
+                    
+                    $sheet->cell('B'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->AssociateName);
+                    });
+                    
+                    $sheet->cell('C'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Rango);
+                    });
+
+                    $sheet->cell('D'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->NoTrimestre);
+                    });
+
+                    $sheet->cell('E'.$idx, function($cell) use ($row) {
+                        $cell->setValue("si");
+                    });
+                }
+            });
+
             $excel->sheet('3er timerste', function($sheet) use ($timestreTres) {
                 $sheet->mergeCells('A1:E1');
 
@@ -1355,5 +1531,126 @@ class ReportesController extends Controller{
                 }
             });
         })->export('xls');
+    }
+
+    public function estrategiaOctReport(Request $request){
+        $fileName='Comunicados MOKUTEKI PLUS';
+        $conexion = DB::connection('sqlsrv5');
+            $consolidado = $conexion->select("SELECT DISTINCT associateid, Email, Pais FROM EstrategiaOct");
+        \DB::disconnect('sqlsrv5');
+
+        \Excel::create($fileName, function($excel) use ($consolidado) {
+            $excel->sheet('MKPLUS', function($sheet) use ($consolidado) {
+
+                $sheet->cell('A1', function($cell){
+                    $cell->setValue('Influencer');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('B1', function($cell){
+                    $cell->setValue('Email');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('C1', function($cell){
+                    $cell->setValue('Country');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('D1', function($cell){
+                    $cell->setValue('liga');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                // Mostramos los registros
+                foreach ($consolidado as $idx => $row){
+                    $idx = ($idx  + 2);
+                    $sheet->cell('A'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->associateid);
+                    });
+
+                    $sheet->cell('B'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Email);
+                    });
+                    
+                    $sheet->cell('C'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pais);
+                    });
+                    
+                    $sheet->cell('D'.$idx, function($cell) use ($row) {
+                        $cell->setValue('https://services.nikken.com.mx/inc1USD/' . base64_encode($row->associateid));
+                    });
+                }
+            });
+        })->export('csv');
+    }
+
+    public function reporteClientesTV(Request $request){
+        $fileName='CLIENTES TV 2020 - Feb 2021';
+        $consolidado = User::select('name', 'last_name', 'email', 'country_id', 'created_at', 'sap_code_sponsor')->where('client_type', '=','CLIENTE')->where('created_at', '>', '2020-01-01')->get();
+
+        \Excel::create($fileName, function($excel) use ($consolidado) {
+            $excel->sheet('MKPLUS', function($sheet) use ($consolidado) {
+
+                $sheet->cell('A1', function($cell){
+                    $cell->setValue('Nombre');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('B1', function($cell){
+                    $cell->setValue('correo');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('C1', function($cell){
+                    $cell->setValue('país');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('D1', function($cell){
+                    $cell->setValue('fecha de creación');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('E1', function($cell){
+                    $cell->setValue('patrocinador');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                // Mostramos los registros
+                foreach ($consolidado as $idx => $row){
+                    $idx = ($idx  + 2);
+                    $sheet->cell('A'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->name . ' ' . $row->last_name);
+                    });
+
+                    $sheet->cell('B'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->email);
+                    });
+                    
+                    $nPaisLetras = [ 1 => 'COL', 2 => 'MEX', 3 => 'PER', 4 => 'ECU', 5 => 'PAN', 6 => 'GTM', 7 => 'SLV', 8 => 'CRI', 9 => 'USA', 10 => 'CHL'];
+                    $sheet->cell('C'.$idx, function($cell) use ($row, $nPaisLetras) {
+                        $cell->setValue($nPaisLetras[$row->country_id]);
+                    });
+                    
+                    $sheet->cell('D'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->created_at);
+                    });
+                    
+                    $sheet->cell('E'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->sap_code_sponsor);
+                    });
+                }
+            });
+        })->export('csv');
     }
 }

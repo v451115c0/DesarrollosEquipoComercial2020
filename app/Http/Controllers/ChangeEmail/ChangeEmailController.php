@@ -13,8 +13,6 @@ use App\User;
 use App\ControlCi;
 use App\contracts;
 use App\Usertest;
-use App\ControlCitest;
-use App\contractstest;
 use App\BPInactive;
 use App\Notifications\SMSNotification;
 
@@ -30,6 +28,9 @@ class ChangeEmailController extends Controller
      */
     public function index(Request $request,$user)
     {
+
+      $userb64 = $user;
+    	$user = base64_decode($user);
         
         try {
 
@@ -41,15 +42,14 @@ class ChangeEmailController extends Controller
 
             if ($staff->services){
 
-               
-                return view('changeemail.index',array('staff' => $staff))
+                return view('changeemail.index',array('staff' => $staff, 'user' => $userb64))
                         ->with('notice', 'Mensaje. ')
                         ->with('alertClass', 'alert-success');
                 
             }
             else{
 
-                  return view('changeemail.index',array('staff' => $staff));
+                  return view('changeemail.index',array('staff' => $staff, 'user' => $userb64));
 
             }
             
@@ -71,23 +71,23 @@ class ChangeEmailController extends Controller
     */
 
     public function generalData(Request $request){
-
+        
         //Realizamos la busqueda de los datos generales del asesor
-        $user =  Usertest::select('id','sap_code','name','email')
+        $user =  User::select('id','sap_code','name','email')
                 ->where('sap_code','=', $request->code)
                 ->first();
 
-        $controlCi = ControlCitest::select('idcontrol_ci','nombre','correo','codigo')
+        $controlCi = ControlCi::select('idcontrol_ci','nombre','correo','codigo')
                 ->where('codigo','=', $request->code)
                 ->first();
 
-        $contracts =  contractstest::select('id_contract','code','name','email')
+        $contracts =  contracts::select('id_contract','code','name','email')
                 ->where('code','=', $request->code)
                 ->first();
 
+      $usuariobase = $request->email;
 
-
-       return view('changeemail.detail_data',array('user' => $user,'controlCi' => $controlCi, 'contracts' => $contracts, 'sap_code' => $request->code, 'nameRequest' => $request->nameRequest));
+       return view('changeemail.detail_data',array('user' => $user,'controlCi' => $controlCi, 'contracts' => $contracts, 'sap_code' => $request->code, 'nameRequest' => $request->nameRequest, 'usuariobase' => $usuariobase));
     }
 
     /**
@@ -105,15 +105,15 @@ class ChangeEmailController extends Controller
 
 
 
-        $user =  Usertest::select('id','sap_code','name','email')
+        $user =  User::select('id','sap_code','name','email')
                 ->where('email','=', $email)
                 ->first();
 
-        $controlCi = ControlCitest::select('idcontrol_ci','nombre','correo','codigo')
+        $controlCi = ControlCi::select('idcontrol_ci','nombre','correo','codigo')
                 ->where('correo','=', $email)
                 ->first();
 
-        $contracts =  contractstest::select('id_contract','code','name','email')
+        $contracts =  contracts::select('id_contract','code','name','email')
                 ->where('email','=', $email)
                 ->first();
 
@@ -204,22 +204,22 @@ class ChangeEmailController extends Controller
              //Segundo cortamos el acceso a la OV
         $conexionMkt = \DB::connection('mysql4');
         $conexionIn = \DB::connection('mysqlsrv');
-        $conexionTV = \DB::connection('mysql10');
+        $conexionTV = \DB::connection('mysql2');
 
 
-        $user =  Usertest::select('id','sap_code','name','email','country_id')
+        $user =  User::select('id','sap_code','name','email','country_id')
                 ->where('sap_code','=', $sap_code)
                 ->first();
 
         
-        $control_ci = $conexionMkt->table('control_ci_test')
+        $control_ci = $conexionMkt->table('control_ci')
           ->where('codigo', '=',$sap_code)
           ->update([
             'correo' => $emailRequest
           ]);
 
 
-        $contracts = $conexionIn->table('contracts_test')
+        $contracts = $conexionIn->table('contracts')
           ->where('code', '=',$sap_code)
           ->update([
             'email' => $emailRequest
@@ -298,7 +298,7 @@ class ChangeEmailController extends Controller
           }else{
 
               return \Redirect::back() 
-                ->with('notice', 'El Código '.$sap_code.' fue actualizado de manera correcta, sin emabrgo no fue posible notificar por correo!')
+                ->with('notice', 'El Código '.$sap_code.' fue actualizado de manera correcta, sin embargo no fue posible notificar por correo!')
                 ->with('alertClass', 'alert-success');
 
 

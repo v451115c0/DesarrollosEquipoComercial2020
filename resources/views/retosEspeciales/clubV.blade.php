@@ -239,6 +239,19 @@
 											</tbody>
 										</table>
 									</div>
+									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 site-content-inner align-self-center mr-auto mt-4">
+										<span>
+											<b>Trimestre #{{ sizeof($trimestres) }}</b>
+											@if($abiInfo[0]->Validacion == 'T')
+												<span class="badge badge-success">Cumple</span>
+											@elseif($abiInfo[0]->Validacion == 'N')
+												<span class="badge badge-warning">Nuevo incorporado</span>
+											@else
+												<span class="badge badge-danger">No cumple</span>
+											@endif
+										</span>
+										<h6 class="mt-3">* Recuerda realizar el requisito mensual de 100 VP y 2,000 VGP</h6>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -257,6 +270,7 @@
 				<div id="trimestreSection" class="row">
 					<div class="col-md-12 text-center">
 						<h2 class="section-title mb-2 mt-3">Trimestres</h2>
+						<h6>Fecha de incorporación: <b>{{ $abiInfo[0]->Fecha_incorpo ?? Date('Y-m-d') }}</b></h6>
                     </div>
                     @foreach ($trimestres as $fila)
                         <div class="col-xl-12 col-lg-12 col-md-12 col-12 layout-spacing">
@@ -269,8 +283,10 @@
                                                 Trimestre #{{ $fila->NoTrimestre }}
                                                 @if($fila->Validacion == 'T')
                                                     <span class="badge badge-success">Cumple</span>
-                                                @else
-                                                    <span class="badge badge-danger">No cumple</span>
+                                                @elseif($fila->Validacion == 'N')
+                                                    <span class="badge badge-warning">Nuevo incorporado</span>
+												@else
+													<span class="badge badge-danger">No cumple</span>
                                                 @endif
                                             </h4>
                                         </div>
@@ -317,9 +333,9 @@
                                                             </td>
                                                             <td>{{ $row->Rango }}
                                                             </td>
-                                                            <td>{{ number_format($row->Vp,2) }}</td>
+                                                            <td>{{ number_format($row->Vp,0) }}</td>
                                                             <td>
-                                                                {{ number_format($row->VGP,2) }}
+                                                                {{ number_format($row->VGP,0) }}
                                                                 @php
                                                                     $VGPAcumulado = $VGPAcumulado + $row->VGP;
                                                                     $incoporados = $incoporados + $row->Incorpo_VP100;
@@ -385,6 +401,7 @@
                                                 </tr>
                                             </tfoot>
                                         </table>
+										<h6 class="text-center mt-3">* Recuerda realizar el requisito mensual de 100 VP y 2,000 VGP</h6>
                                     </div>
                                 </div>
                             </div>
@@ -660,7 +677,7 @@
 						data: 'Vp',
 						className: 'text-center',
 						"render": function(data, type, row){
-							return formatMoney(row.Vp);
+							return formatMoney(row.Vp, 0);
 						}
 					},
 					{ 
@@ -668,7 +685,7 @@
 						className: 'text-center',
 						"render": function(data, type, row){
 							var rVGP = row.VGP;
-							rVGP = formatMoney(rVGP);
+							rVGP = formatMoney(rVGP, 0);
 							return rVGP;
 						}
 					},
@@ -682,14 +699,14 @@
 						data: 'VpAcumulado',
 						className: 'text-center',
 						"render": function(data, type, row){
-							return formatMoney(row.VpAcumulado);
+							return formatMoney(row.VpAcumulado, 0);
 						}
 					},
 					{ 
 						data: 'VGPacumulado',
 						className: 'text-center',
 						"render": function(data, type, row){
-							return formatMoney(row.VGPacumulado);
+							return formatMoney(row.VGPacumulado, 0);
 						}
 					},
 					{ data: 'NoTrimestre', className: 'text-center' },
@@ -700,13 +717,17 @@
 						className: 'text-center',
 						"render": function(data, type, row){
 							var Cumple_MesV = row.Validacion.trim();
-							if(row.Cumple_MesV == 'T'){
-								Cumple_MesV = '<br><span class="badge badge-success badge-pill"><i class="flaticon-single-circle-tick"></i> Cumple</span>';
+							var text = "";
+							if(Cumple_MesV == 'T'){
+								text = '<br><span class="badge badge-success badge-pill"><i class="flaticon-single-circle-tick"></i> Cumple</span>';
+							}
+							else if(Cumple_MesV == 'N'){
+								text = '<br><span class="badge badge-warning badge-pill"><i class="flaticon-close"></i> Nuevo incorporado</span>';
 							}
 							else{
-								Cumple_MesV = '<br><span class="badge badge-danger badge-pill"><i class="flaticon-close"></i> No cumple</span>';
+								text = '<br><span class="badge badge-danger badge-pill"><i class="flaticon-close"></i> No cumple</span>';
 							}
-							return Cumple_MesV;
+							return text;
 						}
 					},
 				],
