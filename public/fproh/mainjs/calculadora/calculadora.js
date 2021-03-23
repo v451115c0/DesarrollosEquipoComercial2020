@@ -7,7 +7,7 @@ var targetpzsNode3;
 var nombreJugadorCero;
 var isoMoney = {'LAT': "$", 'COL': '$', 'CRI': '₡', 'PAN': '$', 'ECU': 'USD', 'PER': 'S/', 'SLV': '$', 'GTM': 'Q', 'CHL': '$'}
 var pais = $("#paisPadre").val();
-var paisesLargos = { 'LAT': 'México', 'COL': 'Colombia', 'CRI': 'Costa Rica', 'PAN': 'Panamá', 'ECU': 'Ecuador', 'PER': 'Perú', 'SLV': 'El Salvador', 'GTM': 'Guatemala', 'CHL': 'Chile' };
+var paisesLargos = { 'LAT': 'México', 'MEX': 'México', 'COL': 'Colombia', 'CRI': 'Costa Rica', 'PAN': 'Panamá', 'ECU': 'Ecuador', 'PER': 'Perú', 'SLV': 'El Salvador', 'GTM': 'Guatemala', 'CHL': 'Chile' };
 var porcentajes = { 'Cliente': '0', 'Influencer': '15', 'DIR': '0', 'EXE': '10', 'PLA': '6', 'ORO': '6', 'PLO': '6', 'DIA': '6', 'DRL': '6' };
 $("#todosProductos").show();
 $("#productosInfluencia").hide();
@@ -47,6 +47,8 @@ function initCalc(){
     changeIcon($("#iconNodo4"), 'DIR', null);
     changeIcon($("#iconNodo5"), 'DIR', null);
     changeIcon($("#iconNodo6"), 'DIR', null);
+
+    changeIconPais($('#iconPadrePais'), $('#paisPadre').val(), $('#iconNodo1Pais'), $('#nombrePaisNode1'), $('#iconNodo2Pais'), $('#nombrePaisNode2'), $('#iconNodo3Pais'), $('#nombrePaisNode3'), $('#iconNodo4Pais'), $('#nombrePaisNode4'), $('#iconNodo5Pais'), $('#nombrePaisNode5'), $('#iconNodo6Pais'), $('#nombrePaisNode6'));
 }
 
 function getNameUserCero(){
@@ -268,6 +270,7 @@ function changeIcon(element, option, form, porcentlabel){
 }
 
 function changeIconPais(element, option, banderaNodo1, nombrePaisNodo1, banderaNodo2, nombrePaisNodo2, banderaNodo3, nombrePaisNodo3, banderaNodo4, nombrePaisNodo4, banderaNodo5, nombrePaisNodo5, banderaNodo6, nombrePaisNodo6){
+    alert(option);
     element.attr('src', '../fproh/img/calculadora/' + option + '.png');
     nombrePaisNodo1.text(paisesLargos[option])
     banderaNodo1.attr('src', '../fproh/img/calculadora/' + option + '.png');

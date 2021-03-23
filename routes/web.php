@@ -196,7 +196,8 @@ Route::get('avancesSerPro', 'Reportes\ReportesController@avancesSerPro'); // rep
 Route::get('reportCuestionarioPlatas', 'Reportes\ReportesController@reportCuestionarioPlatas'); // reporte de cuestionarios PLATAS
 Route::get('reportCuestionarioOros', 'Reportes\ReportesController@reportCuestionarioOros'); // reporte de cuestionarios OROS
 Route::get('estrategiaOctReport', 'Reportes\ReportesController@estrategiaOctReport'); // reporte de rutas a mokuteki plus
-Route::get('reporteClientesTV', 'Reportes\ReportesController@reporteClientesTV'); // reporte de rutas a mokuteki plus
+Route::get('reporteClientesTV', 'Reportes\ReportesController@reporteClientesTV'); // reporte de cleientes existentes en la TV
+Route::get('reporteAlcanciasTV', 'Reportes\ReportesController@reporteAlcanciasTV'); // reporte de ventas por apartados en TV
 
 /*=== CMS Nikkenlatam ===*/
 Route::get('cmsmynikken/addNotify', 'CMSMyNikken\CMSMyNikkenController@index');

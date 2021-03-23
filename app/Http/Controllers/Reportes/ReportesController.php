@@ -1653,4 +1653,224 @@ class ReportesController extends Controller{
             });
         })->export('csv');
     }
+
+    public function reporteAlcanciasTV(Request $request){
+        $fileName='Ventas por Alcancía en TV';
+        $conexion = \DB::connection('mysql2');
+            $consolidado = $conexion->select("SELECT 
+            (SELECT code FROM countries WHERE id=sales.country_id) AS Venta_Pais,
+            (SELECT dues FROM sales_in_dues WHERE sale_id=sales_dues.sale_id) AS Meses,
+            CONCAT('WEB-',(SELECT code FROM countries WHERE id=sales.country_id),'-',sales_dues.sale_id) AS Orden,
+            (SELECT total FROM sales WHERE id=sales_dues.sale_id) AS Total_Orden,
+            (SELECT status FROM sales WHERE id=sales_dues.sale_id) AS Estatus_Orden,
+            sales_dues.quota_sale_id AS Orden_Abono,
+            sales_information_payments.payment_amount AS Total_Abono,
+            sales.discount AS Descuento,
+            sales.extra_perception_total AS Retenciones, 
+            sales_information_payments.status AS Estatus_Abono,
+            sales_information_payments.confirmation_code AS PaymentVoucherNum,
+            sales_dues.dues_to_cover AS Num_Abono,
+            sales_information_payments.payment_provider AS Pasarela,
+            sales_information_payments.payment_method AS Forma_Pago,
+            users.sap_code AS CardCode,
+            users.client_type AS Tipo_Asesor,
+            CONCAT(users.name,' ',users.last_name) AS Nom_Asesor
+            FROM sales_dues
+            LEFT JOIN sales_information_payments ON sales_dues.quota_sale_id=sales_information_payments.sale_id
+            LEFT JOIN sales ON sales_information_payments.sale_id=sales.id
+            LEFT JOIN users ON sales.user_id=users.id 
+            GROUP BY sales_dues.quota_sale_id, sales.country_id, sales_dues.sale_id, sales_information_payments.payment_amount, sales.discount, sales.extra_perception_total, sales_information_payments.status,
+            sales_information_payments.confirmation_code, sales_dues.dues_to_cover, sales_information_payments.payment_provider, sales_information_payments.payment_method, users.sap_code, users.client_type, users.name, users.last_name;");
+        \DB::disconnect('mysql2');
+
+        \Excel::create($fileName, function($excel) use ($consolidado) {
+            $excel->sheet('MKPLUS', function($sheet) use ($consolidado) {
+                $sheet->mergeCells('A1:Q1');
+
+                $sheet->cell('A1', function($cell){
+                    $cell->setValue("Ventas por apartados | " . Date('Y-m-d'));
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                    $cell->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '15',
+                    ));
+                });
+
+                $sheet->cell('A3', function($cell){
+                    $cell->setValue('País');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('B3', function($cell){
+                    $cell->setValue('numero de meses');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('C3', function($cell){
+                    $cell->setValue('Numero de orden');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('D3', function($cell){
+                    $cell->setValue('Estatus de orden');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('E3', function($cell){
+                    $cell->setValue('Estatus de orden');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('F3', function($cell){
+                    $cell->setValue('Id de abono');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('G3', function($cell){
+                    $cell->setValue('Monto de abono');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('H3', function($cell){
+                    $cell->setValue('Descuento');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('I3', function($cell){
+                    $cell->setValue('Retenciones');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('J3', function($cell){
+                    $cell->setValue('Estaus de abono');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('K3', function($cell){
+                    $cell->setValue('Vaucher');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('L3', function($cell){
+                    $cell->setValue('Numero de abono');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('M3', function($cell){
+                    $cell->setValue('Pasarela');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('N3', function($cell){
+                    $cell->setValue('Forma de pago');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('O3', function($cell){
+                    $cell->setValue('Código de influencer');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('P3', function($cell){
+                    $cell->setValue('Tipo');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                $sheet->cell('Q3', function($cell){
+                    $cell->setValue('Nombre de Influencer');
+                    $cell->setAlignment('center'); //Centramos contenido
+                    $cell->setFontWeight('bold'); //Negritas
+                });
+
+                // Mostramos los registros
+                foreach ($consolidado as $idx => $row){
+                    $idx = ($idx  + 4);
+                    $sheet->cell('A'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Venta_Pais);
+                    });
+
+                    $sheet->cell('B'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Meses);
+                    });
+                    
+                    $sheet->cell('C'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Orden);
+                    });
+                    
+                    $sheet->cell('D'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Total_Orden);
+                    });
+                    
+                    $sheet->cell('E'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Estatus_Orden);
+                    });
+                    
+                    $sheet->cell('F'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Orden_Abono);
+                    });
+                    
+                    $sheet->cell('G'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Total_Abono);
+                    });
+                    
+                    $sheet->cell('H'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Descuento);
+                    });
+                    
+                    $sheet->cell('I'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Retenciones);
+                    });
+                    
+                    $sheet->cell('J'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Estatus_Abono);
+                    });
+                    
+                    $sheet->cell('K'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->PaymentVoucherNum);
+                    });
+                    
+                    $sheet->cell('L'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Num_Abono);
+                    });
+                    
+                    $sheet->cell('M'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Pasarela);
+                    });
+                    
+                    $sheet->cell('N'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Forma_Pago);
+                    });
+                    
+                    $sheet->cell('O'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->CardCode);
+                    });
+                    
+                    $sheet->cell('P'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Tipo_Asesor);
+                    });
+                    
+                    $sheet->cell('Q'.$idx, function($cell) use ($row) {
+                        $cell->setValue($row->Nom_Asesor);
+                    });
+                }
+            });
+        })->export('xls');
+    }
 }
